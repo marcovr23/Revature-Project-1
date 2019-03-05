@@ -1,38 +1,61 @@
 package com.revature.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ReimbursementDAO implements DAO<Reimbursement> {
+import org.apache.log4j.Logger;
 
-	@Override
-	public List<Reimbursement> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+import com.revature.models.Reimbursement;
+
+public class ReimbursementDAO {
+
+	private static Logger log = Logger.getLogger(ReimbursementDAO.class);
+
+//	public Role
+	
+
+
+	
+//	Get all Reimb 
+//
+//	 
+//
+//	Get Reimb by status 
+//
+//	 
+//
+//	Get Reimb by employee id and status 
+//
+//	 
+//
+//	Get Reimb by employee id and date 
+//
+//	 
+//
+//	Add a new Reimb 
+//
+//	 
+//
+//	Approve/Deny a Reimb 
+	
+	private List<Reimbursement> mapResultSet(ResultSet rs) throws SQLException {
+	List<Reimbursement> reimbursements = new ArrayList<>();
+	while(rs.next()) {
+		Reimbursement reimbursement = new Reimbursement();
+		reimbursement.setReimbId(rs.getInt("reimb_id"));
+		reimbursement.setAccount(rs.getInt("reimb_account"));
+		reimbursement.setSubmitted(rs.getInt("reimb_submitted"));
+		reimbursement.setResolved(rs.getInt("reimb_resolved"));
+		reimbursement.setDesc(rs.getString("reimb_description"));
+		reimbursement.setAuthor(rs.getInt("reimb_author"));
+		reimbursement.setResolver(rs.getInt("reimb_resolver"));
+		reimbursement.setStatusId(rs.getInt("reimb_status_id"));
+		reimbursement.setTypeId(rs.getInt("reimb_type_id"));
+		reimbursements.add(reimbursement);
 	}
-
-	@Override
-	public Reimbursement getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Reimbursement add(Reimbursement obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Reimbursement update(Reimbursement updatedObj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean delete(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+return reimbursements;
+}
 
 }
