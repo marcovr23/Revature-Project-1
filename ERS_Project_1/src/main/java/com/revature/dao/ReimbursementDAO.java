@@ -1,5 +1,7 @@
 package com.revature.dao;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,6 +10,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.revature.models.Reimbursement;
+import com.revature.util.ConnectionFactory;
+
+import oracle.jdbc.internal.OracleTypes;
 
 public class ReimbursementDAO {
 
@@ -39,6 +44,26 @@ public class ReimbursementDAO {
 //	 
 //
 //	Approve/Deny a Reimb 
+	
+	public List<Reimbursement> getAll() {
+
+        List<Reimbursement> reimbursements = new ArrayList<>();
+
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+            CallableStatement cstmt = conn.prepareCall("{CALL get_all_reimbursements(?)}");
+            cstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            cstmt.execute();
+
+            ResultSet rs = (ResultSet) cstmt.getObject(1);
+            reimbursements = this.mapResultSet(rs);
+
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+
+        return reimbursements;
+    }
 	
 	private List<Reimbursement> mapResultSet(ResultSet rs) throws SQLException {
 	List<Reimbursement> reimbursements = new ArrayList<>();

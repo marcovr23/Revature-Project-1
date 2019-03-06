@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -47,8 +48,33 @@ public class UserDAO {
 	
 //	Add a new User
 	
+public User getByCredentials(String username, String password) {
+        
+        User user = new User();
+        
+        try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_users WHERE ers_username = ? AND ers_password = ?");
+            
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            
+            ResultSet rs = pstmt.executeQuery();
+            List<User> users = this.mapResultSet(rs);
+            if (users.isEmpty()) user = null;
+            else user = users.get(0);
+            
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+                
+        return user;
+    }
+	
 	private List<User> mapResultSet(ResultSet rs) throws SQLException {
+		
 	List<User> users = new ArrayList<>();
+	
 	while(rs.next()) {
 		User user = new User();
 		user.setId(rs.getInt("ers_users_id"));
