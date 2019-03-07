@@ -153,13 +153,14 @@ public class ReimbursementDAO {
 		Reimbursement reimbursement = new Reimbursement();
 		reimbursement.setReimbId(rs.getInt("reimb_id"));
 		reimbursement.setAmount(rs.getInt("reimb_amount"));
-		reimbursement.setSubmitted(rs.getString("reimb_submitted"));
-		reimbursement.setResolved(rs.getString("reimb_resolved"));
+		reimbursement.setSubmitted(rs.getTimestamp("reimb_submitted"));
+		reimbursement.setResolved(rs.getTimestamp("reimb_resolved"));
 		reimbursement.setDesc(rs.getString("reimb_description"));
 		reimbursement.setAuthor(rs.getInt("reimb_author"));
 		reimbursement.setResolver(rs.getInt("reimb_resolver"));
 		reimbursement.setStatusId(rs.getInt("reimb_status_id"));
 		reimbursement.setTypeId(rs.getInt("reimb_type_id"));
+		reimbursement.setDate(rs.getTimestamp("reimb_date"));
 		reimbursements.add(reimbursement);
 	}
 return reimbursements;
