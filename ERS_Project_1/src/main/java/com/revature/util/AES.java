@@ -13,7 +13,7 @@ public class AES {
 	
 	  private static SecretKeySpec secretKey;
 	    private static byte[] key;
-	    private static String secret = "Pineapple Monkeys on the bay";
+	    private final static String secret = "Salty Sea Nuts make me thirsty";
 	 
 	    public static void setKey(String myKey)
 	    {
