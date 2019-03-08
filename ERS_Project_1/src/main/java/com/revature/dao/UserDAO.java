@@ -70,6 +70,28 @@ public User getByCredentials(String username, String password) {
                 
         return user;
     }
+
+public User getByID(int id) {
+    
+    User user = new User();
+    
+    try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_users WHERE ers_users_id = ?");
+        
+        pstmt.setInt(1, id);
+        
+        ResultSet rs = pstmt.executeQuery();
+        List<User> users = this.mapResultSet(rs);
+        if (users.isEmpty()) user = null;
+        else user = users.get(0);
+        
+    } catch (SQLException e) {
+        log.error(e.getMessage());
+    }
+            
+    return user;
+}
 	
 	private List<User> mapResultSet(ResultSet rs) throws SQLException {
 		
