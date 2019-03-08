@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +71,44 @@ public User getByCredentials(String username, String password) {
                 
         return user;
     }
+
+public User add(User newUser) {
+    
+    try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        
+        conn.setAutoCommit(false);
+        
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ERS_users VALUES (0, ?, ?, ?, ?, 1)", new String[] {"ers_users_id"});
+        pstmt.setString(1, newUser.getUsername());
+        pstmt.setString(2, newUser.getPassword());
+        pstmt.setString(3, newUser.getFirstname());
+        pstmt.setString(4, newUser.getLastname());
+        pstmt.setString(4, newUser.getEmail());
+
+        
+        int rowsInserted = pstmt.executeUpdate();
+        ResultSet rs = pstmt.getGeneratedKeys();
+        
+        if(rowsInserted != 0) {
+            
+            while(rs.next()) {
+                newUser.setId(rs.getInt(1));
+            }
+            
+            conn.commit();
+        }
+                
+    } catch (SQLIntegrityConstraintViolationException sicve) { 
+        sicve.printStackTrace();
+        log.warn("Username already taken.");
+    } catch (SQLException e) {
+        log.error(e.getMessage());
+    }
+    
+    if(newUser.getId() == 0) return null;
+    
+    return newUser;
+}
 
 public User getByID(int id) {
     
