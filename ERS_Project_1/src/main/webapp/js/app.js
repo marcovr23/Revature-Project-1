@@ -1,9 +1,8 @@
 window.onload = function() {
     document.getElementById('to-login').addEventListener('click', loadLogin);
     document.getElementById('to-register').addEventListener('click', loadRegister);
-    document.getElementById('to-dashboard').addEventListener('click', loadDashboard);
-    document.getElementById('to-logout').addEventListener('click', logout);
-    document.getElementById('alert-msg').hidden = true;
+    //document.getElementById('to-logout').addEventListener('click', logout);
+    document.getElementById('alert-msg').style.display = "none";
 }
 
 /*
@@ -23,7 +22,7 @@ async function loadLogin() {
 
 function configureLogin() {
     console.log('in configureLogin()');
-    document.getElementById('alert-msg').hidden = true;
+    document.getElementById('alert-msg').style.display = "none";
     login();
 }
 
@@ -43,11 +42,11 @@ async function login() {
     });
 
     if(response.status == 200) {
-        document.getElementById('alert-msg').hidden = true;
+        document.getElementById('alert-msg').style.display = "none";
         localStorage.setItem('jwt', response.headers.get('Authorization'));
         loadDashboard();
     } else {
-        document.getElementById('alert-msg').hidden = false;
+        document.getElementById('alert-msg').style.display = "block";
     }
 
 }
