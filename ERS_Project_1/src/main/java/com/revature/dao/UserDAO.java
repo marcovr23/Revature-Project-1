@@ -110,7 +110,7 @@ public User add(User newUser) {
     return newUser;
 }
 
-public User getByID(int id) {
+public User getById(int id) {
     
     User user = new User();
     

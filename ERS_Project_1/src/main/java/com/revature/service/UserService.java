@@ -26,7 +26,24 @@ public class UserService {
 		}
 		log.info("Empty username and/or password");
 		return null;
-	}	
+		}	
+		public User addUser(User newUser) {
+	
+			// Verify that there are no empty fields
+			if (newUser.getUsername().equals("") 
+					|| newUser.getPassword().equals("") 
+					|| newUser.getFirstname().equals("")
+					|| newUser.getLastname().equals("")) {
+				log.info("New user object is missing required fields");
+				return null;
+			}
+	
+			return userDao.add(newUser);
+		}
+		
+		public User getUserById(int userId) {
+			return userDao.getById(userId);
+		}
 }
 	/*
 	 * 
@@ -45,8 +62,8 @@ public class UserService {
 
 
 /*
-	- add
 	- getall
+	- add
 	- getbycreds
 	- getbyid
 */
