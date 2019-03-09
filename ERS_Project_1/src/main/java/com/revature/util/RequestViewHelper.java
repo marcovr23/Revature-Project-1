@@ -31,9 +31,9 @@ public class RequestViewHelper {
 //			Principal principal = (Principal) request.getAttribute("principal");
 			
 //			if(principal == null) {
-				log.warn("No principal attribute found on request object");
-				return null;
-			}
+//				log.warn("No principal attribute found on request object");
+//				return null;
+//			}
 			
 			log.info("Fetching dashboard.html");
 			return "partials/dashboard.html";

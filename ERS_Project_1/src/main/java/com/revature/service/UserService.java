@@ -22,14 +22,11 @@ public class UserService {
 			
 			if(!username.equals("") && !password.equals("")) {
 				user = userDao.getByCredentials(username, password);
-//				if(user != null) 
-//				user.setWishlist(wishlistDao.getUserWishList(user.getId())
-//						.getUserWishList());
 				return user;
 		}
 		log.info("Empty username and/or password");
 		return null;
-		
+	}	
 }
 	/*
 	 * 
