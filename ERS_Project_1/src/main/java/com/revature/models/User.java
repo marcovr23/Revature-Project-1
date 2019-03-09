@@ -8,7 +8,7 @@ public class User {
 	private String firstname;
 	private String lastname;
 	private String email;
-	private String roleId;
+	private String role;
 	
 	public int getId() {
 		return id;
@@ -46,11 +46,11 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getRoleId() {
-		return roleId;
+	public String getRole() {
+		return role;
 	}
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
+	public void setRole(String roleId) {
+		this.role = roleId;
 	}
 	@Override
 	public int hashCode() {
@@ -61,7 +61,7 @@ public class User {
 		result = prime * result + id;
 		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -96,10 +96,10 @@ public class User {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (roleId == null) {
-			if (other.roleId != null)
+		if (role == null) {
+			if (other.role != null)
 				return false;
-		} else if (!roleId.equals(other.roleId))
+		} else if (!role.equals(other.role))
 			return false;
 		if (username == null) {
 			if (other.username != null)
@@ -111,10 +111,10 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstname=" + firstname
-				+ ", lastname=" + lastname + ", email=" + email + ", roleId=" + roleId + "]";
+				+ ", lastname=" + lastname + ", email=" + email + ", role=" + role + "]";
 	}
 	public User(int id, String username, String password, String firstname, String lastname, String email,
-			String roleId) {
+			String role) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -122,7 +122,15 @@ public class User {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
-		this.roleId = roleId;
+		this.role = role;
+	}
+	public User(String username, String password, String firstname, String lastname, String email) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
 	}
 	public User() {
 		super();

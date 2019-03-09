@@ -144,7 +144,7 @@ public User getById(int id) {
 		user.setFirstname(rs.getString("user_first_name"));
 		user.setLastname(rs.getString("user_last_name"));
 		user.setEmail(rs.getString("user_email"));
-		user.setRoleId(rs.getString("user_role_id"));
+		user.setRole(rs.getString("user_role_id"));
 		
 		users.add(user);
 	}

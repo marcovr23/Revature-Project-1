@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.revature.models.Principal;
 import com.revature.models.User;
 import com.revature.service.UserService;
 
