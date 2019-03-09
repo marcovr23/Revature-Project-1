@@ -43,7 +43,7 @@ public class UserServlet extends HttpServlet {
 				return;
 			}
 			
-			if(requestURI.equals("/revature_book_store_v4/users") || requestURI.equals("/revature_book_store_v4/users/")) {
+			if(requestURI.equals("/ers_project_1/users") || requestURI.equals("/ers_project_1/users/")) {
 				
 				if (!principal.getRole().equalsIgnoreCase("ADMIN")) {
 					log.warn("Unauthorized access attempt made from origin: " + req.getLocalAddr());
