@@ -19,18 +19,18 @@
     <button type="button" class="btn btn-warning" data-toggle="modal"
       data-target="#regModal">Register</button>
   </div>
-  <!-- The Modal -->
+  <!-- The Login Modal -->
   <div class="modal fade" id="loginModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
-        <!-- Modal Header -->
+        <!-- Login Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Login</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
 
-        <!-- Modal body -->
+        <!-- Login Modal body -->
         <div class="modal-body">
           <div class="form-group">
             <label for="usr">Username:</label>
@@ -40,10 +40,13 @@
             <label for="pwd">Password:</label>
             <input type="password" class="form-control" id="pwd" name="password">
           </div>
-          <button type="submit" class="btn btn-warning" id='login-button'>Submit</button>
+          <div class="alert alert-danger" id = "alert-msg">
+              <strong>Invalid Credentials!</strong>
+            </div>
+          <button type="submit" class="btn btn-warning" id='to-login'>Submit</button>
         </div>
 
-        <!-- Modal footer -->
+        <!-- Login Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
@@ -51,40 +54,40 @@
       </div>
     </div>
   </div>
-  <!-- The Modal -->
+  <!-- The Register Modal -->
   <div class="modal fade" id="regModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
-        <!-- Modal Header -->
+        <!--Register Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Register</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
 
-        <!-- Modal body -->
+        <!--Register Modal body -->
         <div class="modal-body">
           <div class="form-group">
             <label for="usr">Username:</label>
-            <input type="text" class="form-control" id="reg-usr" name="username">
+            <input type="text" class="form-control" id="register-username" name="username">
           </div>
           <div class="form-group">
             <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="reg-pwd" name="password">
+            <input type="password" class="form-control" id="register-password" name="password">
           </div>
           <div class="form-group">
             <label for="reg-fname">First Name:</label>
-            <input type="text" class="form-control" id="reg-fname" name="First name">
+            <input type="text" class="form-control" id="register-fn" name="First name">
           </div>
           <div class="form-group">
             <label for="reg-lname">Last Name:</label>
-            <input type="text" class="form-control" id="reg-lname" name="Last name">
+            <input type="text" class="form-control" id="register-ln" name="Last name">
           </div>
           <div class="form-group">
             <label for="reg-email">Email:</label>
-            <input type="email" class="form-control" id="reg-email" name="email">
+            <input type="email" class="form-control" id="register-email" name="email">
           </div>
-          <button type="submit" class="btn btn-warning" id='login-button'>Submit</button>
+          <button type="submit" class="btn btn-warning" id='to-register'>Submit</button>
         </div>
 
         <!-- Modal footer -->
