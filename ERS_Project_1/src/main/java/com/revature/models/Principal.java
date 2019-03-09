@@ -2,7 +2,7 @@ package com.revature.models;
 
 public class Principal {
 	
-	private String id;
+	private int id;
 	private String role;
 	private String username;
 	
@@ -10,11 +10,11 @@ public class Principal {
 		super();
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -34,7 +34,7 @@ public class Principal {
 		this.username = username;
 	}
 
-	public Principal(String id, String role, String username) {
+	public Principal(int id, String role, String username) {
 		super();
 		this.id = id;
 		this.role = role;

@@ -8,7 +8,7 @@ public class User {
 	private String firstname;
 	private String lastname;
 	private String email;
-	private String role;
+	private Role role;
 	
 	public int getId() {
 		return id;
@@ -46,11 +46,11 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
-	public void setRole(String roleId) {
-		this.role = roleId;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	@Override
 	public int hashCode() {
@@ -114,7 +114,7 @@ public class User {
 				+ ", lastname=" + lastname + ", email=" + email + ", role=" + role + "]";
 	}
 	public User(int id, String username, String password, String firstname, String lastname, String email,
-			String role) {
+			Role role) {
 		super();
 		this.id = id;
 		this.username = username;

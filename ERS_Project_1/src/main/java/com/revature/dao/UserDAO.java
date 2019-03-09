@@ -135,6 +135,7 @@ public User getById(int id) {
 	private List<User> mapResultSet(ResultSet rs) throws SQLException {
 		
 	List<User> users = new ArrayList<>();
+	RoleDAO rd = new RoleDAO();
 	
 	while(rs.next()) {
 		User user = new User();
@@ -144,7 +145,7 @@ public User getById(int id) {
 		user.setFirstname(rs.getString("user_first_name"));
 		user.setLastname(rs.getString("user_last_name"));
 		user.setEmail(rs.getString("user_email"));
-		user.setRole(rs.getString("user_role_id"));
+		user.setRole(rd.getById(rs.getInt("user_role_id")));
 		
 		users.add(user);
 	}

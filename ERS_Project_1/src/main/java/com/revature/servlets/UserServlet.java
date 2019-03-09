@@ -62,7 +62,7 @@ public class UserServlet extends HttpServlet {
 				
 				String userId = fragments[3];
 					
-				if (!principal.getRole().equalsIgnoreCase("ADMIN") && !principal.getId().equalsIgnoreCase(userId)) {
+				if (!principal.getRole().equalsIgnoreCase("ADMIN")) {
 					log.warn("Unauthorized access attempt made from origin: " + req.getLocalAddr());
 					resp.setStatus(401);
 					return;
