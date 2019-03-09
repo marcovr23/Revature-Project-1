@@ -16,27 +16,33 @@ public class RequestViewHelper {
 	
 	public static String process(HttpServletRequest request) {
 		
+		Principal principal = new Principal();
+		
 		switch(request.getRequestURI()) {
 		
-		case "/ers_project_1/login.view":
-			log.info("Fetching login.html");
-			return "partials/login.html";
-		
-		case "/ers_project_1/register.view":
-			log.info("Fetching register.html");
-			return "partials/register.html";
-		
-		case "/ers_project_1/dashboard.view":
+		case "/ers_project_1/employee.view":
 			
-			Principal principal = (Principal) request.getAttribute("principal");
+			 principal = (Principal) request.getAttribute("principal");
 			
 			if(principal == null) {
 				log.warn("No principal attribute found on request object");
 				return null;
 			}
 			
-			log.info("Fetching dashboard.html");
-			return "partials/dashboard.html";
+			log.info("Fetching employee.html");
+			return "partials/employee.html";
+			
+		case "/ers_project_1/manager.view":
+			
+			 principal = (Principal) request.getAttribute("principal");
+			
+			if(principal == null) {
+				log.warn("No principal attribute found on request object");
+				return null;
+			}
+			
+			log.info("Fetching manager.html");
+			return "partials/manager.html";
 		
 		default: 
 			log.info("Invalid view requested");

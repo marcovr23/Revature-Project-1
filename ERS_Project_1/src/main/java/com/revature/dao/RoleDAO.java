@@ -63,7 +63,7 @@ public class RoleDAO {
 				conn.setAutoCommit(false);
 				
 				String [] keys = new String[1];
-				keys[0] = "role_id";
+				keys[0] = "ers_users_role_id";
 				
 				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_user_roles VALUES (0, ?)", keys);
 				pstmt.setString(1, newRole.getRoleName());

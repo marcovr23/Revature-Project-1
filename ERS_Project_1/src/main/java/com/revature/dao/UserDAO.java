@@ -78,12 +78,12 @@ public User add(User newUser) {
         
         conn.setAutoCommit(false);
         
-        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ERS_users VALUES (0, ?, ?, ?, ?, 1)", new String[] {"ers_users_id"});
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ERS_users VALUES (0, ?, ?, ?, ?, ?, 1)", new String[] {"ers_users_id"});
         pstmt.setString(1, newUser.getUsername());
         pstmt.setString(2, newUser.getPassword());
         pstmt.setString(3, newUser.getFirstname());
         pstmt.setString(4, newUser.getLastname());
-        pstmt.setString(4, newUser.getEmail());
+        pstmt.setString(5, newUser.getEmail());
 
         
         int rowsInserted = pstmt.executeUpdate();

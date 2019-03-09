@@ -1,6 +1,6 @@
 window.onload = function() {
-    document.getElementById('to-login').addEventListener('click', loadLogin);
-    document.getElementById('to-register').addEventListener('click', loadRegister);
+    document.getElementById('to-login').addEventListener('click', login);
+    document.getElementById('to-register').addEventListener('click', configureRegister);
     //document.getElementById('to-logout').addEventListener('click', logout);
     document.getElementById('alert-msg').style.display = "none";
 }
@@ -12,19 +12,19 @@ window.onload = function() {
         - configureLogin()
         - login()
 */
-async function loadLogin() {
-    console.log('in loadLogin()');
+// async function loadLogin() {
+//     console.log('in loadLogin()');
     
-    APP_VIEW.innerHTML = await fetchView('login.view');
-    DYNAMIC_CSS_LINK.href = 'css/home.css';
-    configureLogin();
-}
+//     APP_VIEW.innerHTML = await fetchView('login.view');
+//     DYNAMIC_CSS_LINK.href = 'css/home.css';
+//     configureLogin();
+// }
 
-function configureLogin() {
-    console.log('in configureLogin()');
-    document.getElementById('alert-msg').style.display = "none";
-    login();
-}
+// function configureLogin() {
+//     console.log('in configureLogin()');
+//     document.getElementById('alert-msg').style.display = "none";
+//     login();
+// }
 
 async function login() {
     console.log('in login()');
@@ -94,9 +94,9 @@ async function register() {
         id: 0,
         username: document.getElementById('register-username').value,
         password: document.getElementById('register-password').value,
-        firstName: document.getElementById('register-fn').value,
-        lastName: document.getElementById('register-ln').value,
-        email: document.getElementById('register-email').value,
+        firstname: document.getElementById('register-fn').value,
+        lastname: document.getElementById('register-ln').value,
+        email: document.getElementById('register-email').value
     };
 
     let response = await fetch('users', {
