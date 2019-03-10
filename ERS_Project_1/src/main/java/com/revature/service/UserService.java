@@ -44,8 +44,9 @@ public class UserService {
 			}
 			// Encrypt the user's password
 			newUser.setPassword(AES.encrypt(newUser.getPassword()));
-	
-			return userDao.add(newUser);
+			newUser = userDao.add(newUser);
+			newUser.setPassword(AES.decrypt(newUser.getPassword()));
+			return newUser;
 		}
 		
 		public User getUserById(int userId) {
