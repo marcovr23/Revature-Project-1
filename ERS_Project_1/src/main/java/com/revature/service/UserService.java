@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.revature.dao.UserDAO;
 import com.revature.models.User;
+import com.revature.util.AES;
 
 public class UserService {
 	
@@ -13,7 +14,11 @@ public class UserService {
 		private UserDAO userDao = new UserDAO();
 		
 		public List<User> getAllUsers() {
-			return userDao.getAll();
+			List<User> users= userDao.getAll();
+			for(User u: users) {
+				u.setPassword(AES.decrypt(u.getPassword()));
+			}
+			return users;
 		}
 		
 		public User getUserByCredentials(String username, String password) {
@@ -21,12 +26,12 @@ public class UserService {
 			User user = null;
 			
 			if(!username.equals("") && !password.equals("")) {
-				user = userDao.getByCredentials(username, password);
-				return user;
+				return userDao.getByCredentials(username, AES.encrypt(password));
 		}
 		log.info("Empty username and/or password");
 		return null;
 		}	
+		
 		public User addUser(User newUser) {
 	
 			// Verify that there are no empty fields
@@ -37,12 +42,16 @@ public class UserService {
 				log.info("New user object is missing required fields");
 				return null;
 			}
+			// Encrypt the user's password
+			newUser.setPassword(AES.encrypt(newUser.getPassword()));
 	
 			return userDao.add(newUser);
 		}
 		
 		public User getUserById(int userId) {
-			return userDao.getById(userId);
+			User user =  userDao.getById(userId);
+			user.setPassword(AES.decrypt(user.getPassword()));
+			return user;
 		}
 }
 	/*
