@@ -1,6 +1,11 @@
 body {
     font-family: "Lato", sans-serif;
   }
+
+  #open-btn{
+    font-size:30px;
+    cursor:pointer;
+  }
   
   .sidenav {
     height: 100%;
