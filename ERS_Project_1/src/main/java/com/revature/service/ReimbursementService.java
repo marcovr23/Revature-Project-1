@@ -5,15 +5,22 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.revature.dao.ReimbursementDAO;
+import com.revature.models.Principal;
 import com.revature.models.Reimbursement;
 import com.revature.models.User;
 
 public class ReimbursementService {
 	
 	private static Logger log = Logger.getLogger(ReimbursementService.class);
+	
 		private ReimbursementDAO reimbursementDao = new ReimbursementDAO();
+		private Principal principal = new Principal();
 		
 		public List<Reimbursement> getAllReimbursements() {
+			List<Reimbursement> reimbursements = reimbursementDao.getAll();
+			for(Reimbursement r : reimbursements) {
+				reimbursement
+			}
 			return reimbursementDao.getAll();
 		}
 		
@@ -42,9 +49,12 @@ public class ReimbursementService {
 			return reimbursementDao.add(newReimbursement);
 		}
 		
-		public User getReimbursementById(int reimbursementId) {
-			return reimbursementDao.getById(reimbursementId);
+		public Reimbursement getReimbursementById(int id) {
+			if (id < 1) return null;
+			if (id == principal.getId())
+			return reimbursementDao.getById(id);
 		}
+
 }
 	/*
 	Get all Reimb 

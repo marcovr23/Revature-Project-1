@@ -14,7 +14,7 @@ public class UserService {
 		private UserDAO userDao = new UserDAO();
 		
 		public List<User> getAllUsers() {
-			List<User> users= userDao.getAll();
+			List<User> users = userDao.getAll();
 			for(User u: users) {
 				u.setPassword(AES.decrypt(u.getPassword()));
 			}

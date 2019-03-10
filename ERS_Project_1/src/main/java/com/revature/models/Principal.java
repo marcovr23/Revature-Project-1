@@ -5,7 +5,7 @@ public class Principal {
 	private int id;
 	private String role;
 	private String username;
-	
+	//tracy just had String password instead of username
 	public Principal() {
 		super();
 	}
