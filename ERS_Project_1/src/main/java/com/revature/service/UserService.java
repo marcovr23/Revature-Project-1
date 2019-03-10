@@ -23,8 +23,6 @@ public class UserService {
 		
 		public User getUserByCredentials(String username, String password) {
 			
-			User user = null;
-			
 			if(!username.equals("") && !password.equals("")) {
 				return userDao.getByCredentials(username, AES.encrypt(password));
 		}
