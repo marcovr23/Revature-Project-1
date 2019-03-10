@@ -13,7 +13,7 @@ public class JwtConfig {
 	public static final String HEADER = "Authorization";
 	public static final String PREFIX = "Bearer ";
 	public static final int EXPIRATION = 24 * 60 * 60;
-	public static final String SECRET = "";
+	public static final String SECRET = "bees";
 	public static final Key signingKey;
 	
 	static {
