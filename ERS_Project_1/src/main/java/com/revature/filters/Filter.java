@@ -25,29 +25,20 @@ public class Filter extends HttpFilter {
 
 	@Override
 	public void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
-		log.info("Request intercepted by PreFilter");
-		setAccessControlHeaders(resp);
-		checkToken(req);
-		chain.doFilter(req, resp);
-	}
-	
-	private void setAccessControlHeaders(HttpServletResponse resp) {
-		log.info("Attaching CORS headers to HTTP response");
-		resp.setHeader("Access-Control-Allow-Origin", "*");
-		resp.setHeader("Access-Control-Allow-Methods", "POST");
-		resp.setHeader("Access-Control-Allow-Headers", "Content-type, Authorization");
-	}
-	
-	private void checkToken(HttpServletRequest req) {
-		log.info("Checking HTTP request for JWT");
+		log.info("Inside of JwtAuthFilter.doFilter()");
+		
 		// 1. Get the HTTP header named "Authorization"
 		String header = req.getHeader(JwtConfig.HEADER);
-		System.out.println("header is " + header);
+		System.out.println("header is: " + header);
 		
 		// 2. Validate the header values and check the prefix
 		if(header == null || !header.startsWith(JwtConfig.PREFIX)) {
-			System.out.println("header is " + header);
+			System.out.println("header is: " + header);
+
 			log.info("Request originates from an unauthenticated origin");
+			
+			// 2.1: If there is no header, or one that we provided, then go to the next step in the filter chain (target servlet)
+			chain.doFilter(req, resp);
 			return;
 		}
 		
@@ -55,6 +46,7 @@ public class Filter extends HttpFilter {
 		String token = header.replaceAll(JwtConfig.PREFIX, "");
 		
 		try {
+			
 			// 4. Validate the token
 			Claims claims = Jwts.parser()
 					.setSigningKey(JwtConfig.signingKey)
@@ -73,6 +65,9 @@ public class Filter extends HttpFilter {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
+		
+		// 7. Send the request to the next filter in the chain (target servlet)
+		chain.doFilter(req, resp);
 	}
 
 }
