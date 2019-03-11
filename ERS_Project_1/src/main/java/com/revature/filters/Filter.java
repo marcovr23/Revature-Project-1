@@ -42,9 +42,11 @@ public class Filter extends HttpFilter {
 		log.info("Checking HTTP request for JWT");
 		// 1. Get the HTTP header named "Authorization"
 		String header = req.getHeader(JwtConfig.HEADER);
+		System.out.println("header is " + header);
 		
 		// 2. Validate the header values and check the prefix
 		if(header == null || !header.startsWith(JwtConfig.PREFIX)) {
+			System.out.println("header is " + header);
 			log.info("Request originates from an unauthenticated origin");
 			return;
 		}

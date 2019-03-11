@@ -44,6 +44,7 @@ async function login() {
     if(response.status == 200) {
         document.getElementById('alert-msg').style.display = "none";
         localStorage.setItem('jwt', response.headers.get('Authorization'));
+        console.log(localStorage.getItem('jwt', response.headers.get('Authorization')));
         loadEmployeeDashboard();
     } else {
         document.getElementById('alert-msg').style.display = "block";
@@ -130,8 +131,10 @@ function configureDashboard() {
     console.log('in configureDashboard()');
 }
 
+
 //-------------------------------------------------------------------------------------
 async function fetchView(uri) {
+    console.log(localStorage.getItem('jwt'));
     let response = await fetch(uri, {
         method: 'GET',
         mode: 'cors',
