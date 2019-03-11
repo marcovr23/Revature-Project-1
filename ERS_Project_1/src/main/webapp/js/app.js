@@ -44,7 +44,7 @@ async function login() {
     if(response.status == 200) {
         document.getElementById('alert-msg').style.display = "none";
         localStorage.setItem('jwt', response.headers.get('Authorization'));
-        loadDashboard();
+        loadEmployeeDashboard();
     } else {
         document.getElementById('alert-msg').style.display = "block";
     }
@@ -119,10 +119,10 @@ async function register() {
         - loadDashboard()
  */
 
-async function loadDashboard() {
-    console.log('in loadDashboard()');
-    APP_VIEW.innerHTML = await fetchView('dashboard.view');
-    DYNAMIC_CSS_LINK.href = 'css/dashboard.css';
+async function loadEmployeeDashboard() {
+    console.log('in loadEmployeeDashboard()');
+    APP_VIEW.innerHTML = await fetchView('employee.view');
+    DYNAMIC_CSS_LINK.href = 'css/employee.css';
     configureDashboard();
 }
 
