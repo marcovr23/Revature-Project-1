@@ -97,6 +97,7 @@ public class ReimbursementDAO {
 			pstmt.setInt(1, reimb.getAmount());
 			pstmt.setString(2, reimb.getDesc());
 			pstmt.setInt(3, reimb.getAuthor());
+			pstmt.setInt(4, reimb.getTypeId());
 			
 			if(pstmt.executeUpdate() != 0) {
 				
