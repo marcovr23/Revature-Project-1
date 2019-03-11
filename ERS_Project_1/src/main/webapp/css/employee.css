@@ -1,3 +1,7 @@
+body{
+  background-color: #DCE0D9;
+}
+
 /* The side navigation menu */
 .sidebar {
   margin: 0;
@@ -5,7 +9,6 @@
   width: 200px;
   background-color: #FFC107;
   position: fixed;
-  height: 100%;
   overflow: auto;
   border-radius: 25px;
   border-style: solid;
@@ -18,7 +21,6 @@
   width: 210px;
   background-color: #343A40;
   position: fixed;
-  height: 100%;
   overflow: auto;
 }
 
@@ -43,10 +45,10 @@
 
 /* Page content. The value of the margin-left property should match the value of the sidebar's width property */
 div.content {
+  margin-top:  150px;
   margin-left: 200px;
   padding: 1px 16px;
   height: 1000px;
-  background-color: #DCE0D9;
   text-align: center;
 }
 
