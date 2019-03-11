@@ -2,12 +2,40 @@ package com.revature.models;
 
 public class Role {
 	
-
 	private int roleId;
 	private String roleName;
 	
 	public Role() {
 		super();
+	}
+	
+	public Role(int roleId) {
+		this.roleId = roleId;
+		
+		switch(roleId) {
+		case 1:
+			this.roleName = "USER"; break;
+		case 2:
+			this.roleName = "ADMIN"; break;
+		default:
+			this.roleName = "LOCKED";
+		}
+	}
+	
+	public Role(String roleName) {
+		super();
+		this.roleName = roleName;
+		
+		switch(roleName) {
+		case "USER":
+			this.roleId = 1; break;
+		case "ADMIN":
+			this.roleId = 2; break;
+		case "LOCKED":
+			this.roleId = 3; break;
+		default:
+			this.roleId = 3;
+		}
 	}
 	
 	public Role(int roleId, String roleName) {
@@ -31,8 +59,7 @@ public class Role {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -63,7 +90,7 @@ public class Role {
 
 	@Override
 	public String toString() {
-		return "Role [roleId=" + roleId + ", roleName=" + roleName + "]";
+		return "Roles [roleId=" + roleId + ", roleName=" + roleName + "]";
 	}
 
 }
