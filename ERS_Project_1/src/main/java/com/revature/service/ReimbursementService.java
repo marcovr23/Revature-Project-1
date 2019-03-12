@@ -13,11 +13,11 @@ public class ReimbursementService {
 	
 	private static Logger log = Logger.getLogger(ReimbursementService.class);
 	
-		private ReimbursementDAO reimbursementDao = new ReimbursementDAO();
+		private ReimbursementDAO reimbDao = new ReimbursementDAO();
 		private Principal principal = new Principal();
 		
 		public List<Reimbursement> getAllReimbursements() {
-			List<Reimbursement> reimbursements = reimbursementDao.getAll();
+			List<Reimbursement> reimbursements = reimbDao.getAll();
 			
 			return reimbursements;
 		}
@@ -33,15 +33,16 @@ public class ReimbursementService {
 				return null;
 			}
 	
-			return reimbursementDao.add(newReimbursement);
+			return reimbDao.add(newReimbursement);
 		}
 		
 		public Reimbursement getReimbursementById(int id) {
+			Reimbursement reimb = reimbDao.getById(id);
 			if (id < 1) return null;
-			if (id == principal.getId())
-			return reimbursementDao.getById(id);
+			if (id == principal.getId()) return null; // this might be dumb ? should be on getreimbursementbystatus
+			return reimb;
+		
 		}
-
 }
 	/*
 	Get all Reimb 

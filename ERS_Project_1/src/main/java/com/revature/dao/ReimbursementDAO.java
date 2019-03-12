@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.revature.models.Reimbursement;
+import com.revature.models.User;
 import com.revature.util.ConnectionFactory;
 
 public class ReimbursementDAO {
@@ -88,17 +89,22 @@ public class ReimbursementDAO {
 		return reimb;
 	}
 	
-	public void addReimb(Reimbursement reimb) {
+	public Reimbursement add(Reimbursement reimb) {
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
 			
 			conn.setAutoCommit(false);
-			
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_reimbursement VALUES (0, ?, 0, 0, ?, ?, 0, 0, 0)");
-			pstmt.setInt(1, reimb.getAmount());
-			pstmt.setString(2, reimb.getDesc());
-			pstmt.setInt(3, reimb.getAuthor());
-			pstmt.setInt(4, reimb.getTypeId());
-			
+//			reimb_id|reimb_amount|reimb_submitted|reimb_resolved|
+//			reimb_description|reimb_receipt|reimb_author|reimb_resolver|
+//			reimb_status_id|reimb_type_id|reimb_date
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_reimbursement VALUES "
+					+ "(0, ?, ?, 0, ?, 0, ?, 0, ?, ?, ?");
+			pstmt.setInt(1, reimb.getAmount()); 
+			pstmt.setString(2, reimb.getSubmitted()); // setTimestamp/toString/or change value
+			pstmt.setString(3, reimb.getDesc());
+			pstmt.setInt(4, reimb.getAuthor());
+			pstmt.setInt(5, reimb.getStatusId());
+			pstmt.setInt(6, reimb.getTypeId());
+			pstmt.setInt(7, reimb.getDate()); // need to figure out how we're passing timestamps ahh			
 			if(pstmt.executeUpdate() != 0) {
 				
 				// Retrieve the generated primary key for the newly added reimb
@@ -116,6 +122,8 @@ public class ReimbursementDAO {
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 		}
+		
+		return reimb;
 		
 	}
 	
@@ -147,9 +155,13 @@ public Reimbursement update(Reimbursement updatedReimbursement) {
 			
 			conn.setAutoCommit(false);
 			
-			String sql = "UPDATE ers_reimbursement SET status_id = ?, first_name = ?, last_name = ? WHERE reimb_id = ?";
-			System.out.println("THIS IS BROKEN - FIGURE OUT TIMESTAMPS");
-			PreparedStatement pstmt = conn.prepareStatement(sql);
+			log.warn("THIS IS BROKEN - FIGURE OUT TIMESTAMPS");
+			PreparedStatement pstmt = conn.prepareStatement(
+					"UPDATE ers_reimbursement SET "
+					+ "status_id = ?, "
+					+ "reimb_resolver = ?, "
+					+ "reimb_resolved = ? "
+					+ "WHERE reimb_id = ?");
 			pstmt.setInt(1, updatedReimbursement.getStatusId());
 			pstmt.setInt(2, updatedReimbursement.getResolver());
 			pstmt.setInt(3, updatedReimbursement.getResolved()); // this should be of type timestamp unless we pass it in as a string
@@ -166,6 +178,27 @@ public Reimbursement update(Reimbursement updatedReimbursement) {
 		
 		return null;
 	}
+public Reimbursement getById(int id) { // I'm not sure if this is right
+    
+    Reimbursement reimb = new Reimbursement();
+    
+    try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_reimbursement WHERE reimb_id = ?");
+        
+        pstmt.setInt(1, id);
+        
+        ResultSet rs = pstmt.executeQuery();
+        List<Reimbursement> reimbs = this.mapResultSet(rs);
+        if (reimbs.isEmpty()) reimb = null;
+        else reimb = reimbs.get(0);
+        
+    } catch (SQLException e) {
+        log.error(e.getMessage());
+    }
+            
+    return reimb;
+}
 	
 	private List<Reimbursement> mapResultSet(ResultSet rs) throws SQLException {
 	List<Reimbursement> reimbursements = new ArrayList<>();
