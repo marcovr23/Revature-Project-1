@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.revature.models.Principal;
+import com.revature.models.Reimbursement;
 import com.revature.service.ReimbursementService;
 
 @WebServlet("/reim/*")
@@ -44,19 +46,52 @@ public class ReimbServlet extends HttpServlet {
 				// fix this - set to 2(?)
 
 				if (!principal.getRole().equalsIgnoreCase("ADMIN")) {
+//				if (!principal.getRole().equals("2")) {
+
 					log.warn("Unauthorized access attempt made from origin: " + req.getLocalAddr());
 					resp.setStatus(401);
 					return;
-				}
 				
-				List<User> users = userService.getAllUsers();
-				
+			} 
+			}
+			
+		} catch (MismatchedInputException mie) {
+				log.error(mie.getMessage());
+				resp.setStatus(400);
+			} catch (Exception e) {
+				log.error(e.getMessage());
+				resp.setStatus(500);
+			}
+	}
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		log.info("Request received by ReimbServlet.doPost()");
+		Reimbursement newReimbursement = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			newReimbursement = mapper.readValue(req.getInputStream(), Reimbursement.class);
+		} catch (MismatchedInputException mie) {
+			log.error(mie.getMessage());
+			resp.setStatus(400);
+			return;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			resp.setStatus(500);
+			return;
 		}
 		
+		newReimbursement = reimbursementService.addReimbursement(newReimbursement);
+		
+		try {
+			String reimbJson = mapper.writeValueAsString(newReimbursement);
+			PrintWriter out = resp.getWriter();
+			out.write(reimbJson);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			resp.setStatus(500);
 		}
 	}
-	
-	
 }
 
 // get 

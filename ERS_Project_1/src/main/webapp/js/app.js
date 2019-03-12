@@ -44,7 +44,7 @@ async function login() {
     if(response.status == 200) {
         document.getElementById('alert-msg').style.display = "none";
         localStorage.setItem('Auth', response.headers.get('Auth'));
-        console.log(localStorage.getItem("Auth"));
+        console.log(localStorage.getItem('Auth', response.headers.get('Auth')));
         loadEmployeeDashboard();
     } else {
         document.getElementById('alert-msg').style.display = "block";
@@ -98,6 +98,8 @@ async function register() {
         firstname: document.getElementById('register-fn').value,
         lastname: document.getElementById('register-ln').value,
         email: document.getElementById('register-email').value
+        // ,role: {} 
+        // might need to uncomment above code? - see example
     };
 
     let response = await fetch('users', {

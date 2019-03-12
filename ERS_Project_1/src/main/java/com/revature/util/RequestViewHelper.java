@@ -57,8 +57,6 @@ public class RequestViewHelper {
 		default: 
 			log.info("Invalid view requested");
 			return null;
-		
 		}
 	}
-
 }

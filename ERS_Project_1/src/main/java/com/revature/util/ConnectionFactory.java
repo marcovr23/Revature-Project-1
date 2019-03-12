@@ -36,8 +36,8 @@ public class ConnectionFactory {
 
 			DriverManager.deregisterDriver(new OracleDriver());
 			// Load the properties file (application.properties) keys/values into the Properties object
-//			prop.load(new FileReader("C:\\Users\\Edward\\repos\\Revature-Project-1\\ERS_Project_1\\src\\main\\resources\\application.properties"));
-			prop.load(new FileReader("C:\\Users\\marco\\Desktop\\Revature Training\\Project 1 github\\Revature-Project-1\\ERS_Project_1\\src\\main\\resources\\application.properties"));
+			prop.load(new FileReader("C:\\Users\\Edward\\repos\\Revature-Project-1\\ERS_Project_1\\src\\main\\resources\\application.properties"));
+//			prop.load(new FileReader("C:\\Users\\marco\\Desktop\\Revature Training\\Project 1 github\\Revature-Project-1\\ERS_Project_1\\src\\main\\resources\\application.properties"));
 
 			// Get a connection from the DriverManager class
 			conn = DriverManager.getConnection(
