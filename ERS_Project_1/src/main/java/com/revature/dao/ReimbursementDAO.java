@@ -148,7 +148,7 @@ public Reimbursement update(Reimbursement updatedReimbursement) {
 			conn.setAutoCommit(false);
 			
 			String sql = "UPDATE ers_reimbursement SET status_id = ?, first_name = ?, last_name = ? WHERE reimb_id = ?";
-			
+			System.out.println("THIS IS BROKEN - FIGURE OUT TIMESTAMPS");
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, updatedReimbursement.getStatusId());
 			pstmt.setInt(2, updatedReimbursement.getResolver());

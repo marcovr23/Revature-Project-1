@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 
 import com.revature.util.RequestViewHelper;
 
-@WebServlet("/employee/*")
 public class ViewServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
