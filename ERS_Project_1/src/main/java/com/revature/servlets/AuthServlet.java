@@ -38,9 +38,7 @@ public class AuthServlet extends HttpServlet {
 			out = resp.getWriter();
 			credentials = mapper.readValue(req.getInputStream(), String[].class);
 			
-			
-			if(credentials != null && credentials.length != 2) {
-				log.warn("Invalid request, unexpected number of credential values");
+			if(credentials == null) {
 				resp.setStatus(400);
 				return;
 			}

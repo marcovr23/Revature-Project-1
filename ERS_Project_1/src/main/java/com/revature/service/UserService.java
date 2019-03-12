@@ -36,7 +36,8 @@ public class UserService {
 			if (newUser.getUsername().equals("") 
 					|| newUser.getPassword().equals("") 
 					|| newUser.getFirstname().equals("")
-					|| newUser.getLastname().equals("")) {
+					|| newUser.getLastname().equals("")
+					|| newUser.getEmail().equals("")) {
 				log.info("New user object is missing required fields");
 				return null;
 			}
@@ -48,7 +49,7 @@ public class UserService {
 		}
 		
 		public User getUserById(int userId) {
-			User user =  userDao.getById(userId);
+			User user = userDao.getById(userId);
 			user.setPassword(AES.decrypt(user.getPassword()));
 			return user;
 		}
