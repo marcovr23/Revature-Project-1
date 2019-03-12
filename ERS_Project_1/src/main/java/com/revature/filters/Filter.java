@@ -22,6 +22,7 @@ public class Filter extends HttpFilter {
 	
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger(Filter.class);
+	
 
 	@Override
 	public void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
