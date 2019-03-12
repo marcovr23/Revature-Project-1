@@ -104,7 +104,7 @@ public class ReimbursementDAO {
 			pstmt.setInt(4, reimb.getAuthor());
 			pstmt.setInt(5, reimb.getStatusId());
 			pstmt.setInt(6, reimb.getTypeId());
-			pstmt.setInt(7, reimb.getDate()); // need to figure out how we're passing timestamps ahh			
+			pstmt.setString(7, reimb.getDate()); // need to figure out how we're passing timestamps ahh			
 			if(pstmt.executeUpdate() != 0) {
 				
 				// Retrieve the generated primary key for the newly added reimb
@@ -164,7 +164,7 @@ public Reimbursement update(Reimbursement updatedReimbursement) {
 					+ "WHERE reimb_id = ?");
 			pstmt.setInt(1, updatedReimbursement.getStatusId());
 			pstmt.setInt(2, updatedReimbursement.getResolver());
-			pstmt.setInt(3, updatedReimbursement.getResolved()); // this should be of type timestamp unless we pass it in as a string
+			pstmt.setString(3, updatedReimbursement.getResolved()); // this should be of type timestamp unless we pass it in as a string
 			pstmt.setInt(4, updatedReimbursement.getReimbId());
 			
 			if(pstmt.executeUpdate() != 0) {
@@ -206,14 +206,14 @@ public Reimbursement getById(int id) { // I'm not sure if this is right
 		Reimbursement reimbursement = new Reimbursement();
 		reimbursement.setReimbId(rs.getInt("reimb_id"));
 		reimbursement.setAmount(rs.getInt("reimb_amount"));
-		reimbursement.setSubmitted(rs.getTimestamp("reimb_submitted"));
-		reimbursement.setResolved(rs.getTimestamp("reimb_resolved"));
+		reimbursement.setSubmitted(rs.getString("reimb_submitted"));
+		reimbursement.setResolved(rs.getString("reimb_resolved"));
 		reimbursement.setDesc(rs.getString("reimb_description"));
 		reimbursement.setAuthor(rs.getInt("reimb_author"));
 		reimbursement.setResolver(rs.getInt("reimb_resolver"));
 		reimbursement.setStatusId(rs.getInt("reimb_status_id"));
 		reimbursement.setTypeId(rs.getInt("reimb_type_id"));
-		reimbursement.setDate(rs.getTimestamp("reimb_date"));
+		reimbursement.setDate(rs.getString("reimb_date"));
 		reimbursements.add(reimbursement);
 	}
 return reimbursements;

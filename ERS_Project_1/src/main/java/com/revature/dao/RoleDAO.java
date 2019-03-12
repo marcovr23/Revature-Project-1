@@ -39,7 +39,7 @@ public class RoleDAO {
 			
 			try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
 				
-				PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_user_roles WHERE ers_users_role_id = ?");
+				PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_user_roles WHERE user_role_id = ?");
 				pstmt.setInt(1, id);
 				
 				ResultSet rs = pstmt.executeQuery();

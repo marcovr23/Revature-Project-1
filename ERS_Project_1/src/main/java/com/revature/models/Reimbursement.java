@@ -1,21 +1,18 @@
 
 package com.revature.models;
 
-
-import java.sql.Timestamp;
-
 public class Reimbursement {
 
 	private int reimbId;
 	private int amount;
-	private Timestamp submitted;
-	private Timestamp resolved; 
+	private String submitted;
+	private String resolved; 
 	private String desc;
 	private int author;
 	private int resolver;
 	private int statusId;
 	private int typeId;
-	private Timestamp date;
+	private String date;
 	public int getReimbId() {
 		return reimbId;
 	}
@@ -28,16 +25,16 @@ public class Reimbursement {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public Timestamp getSubmitted() {
+	public String getSubmitted() {
 		return submitted;
 	}
-	public void setSubmitted(Timestamp submitted) {
+	public void setSubmitted(String submitted) {
 		this.submitted = submitted;
 	}
-	public Timestamp getResolved() {
+	public String getResolved() {
 		return resolved;
 	}
-	public void setResolved(Timestamp resolved) {
+	public void setResolved(String resolved) {
 		this.resolved = resolved;
 	}
 	public String getDesc() {
@@ -70,10 +67,10 @@ public class Reimbursement {
 	public void setTypeId(int typeId) {
 		this.typeId = typeId;
 	}
-	public Timestamp getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Timestamp date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	@Override
@@ -141,8 +138,8 @@ public class Reimbursement {
 				+ resolved + ", desc=" + desc + ", author=" + author + ", resolver=" + resolver + ", statusId="
 				+ statusId + ", typeId=" + typeId + ", date=" + date + "]";
 	}
-	public Reimbursement(int reimbId, int amount, Timestamp submitted, Timestamp resolved, String desc, int author,
-			int resolver, int statusId, int typeId, Timestamp date) {
+	public Reimbursement(int reimbId, int amount, String submitted, String resolved, String desc, int author,
+			int resolver, int statusId, int typeId, String date) {
 		super();
 		this.reimbId = reimbId;
 		this.amount = amount;
@@ -158,7 +155,7 @@ public class Reimbursement {
 	public Reimbursement() {
 		super();
 	}
-	public Reimbursement(int amount, String desc, int author, Timestamp date) {
+	public Reimbursement(int amount, String desc, int author, String date) {
 		super();
 		this.amount = amount;
 		this.desc = desc;
