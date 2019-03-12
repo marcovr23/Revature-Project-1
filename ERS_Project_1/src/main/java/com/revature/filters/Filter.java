@@ -17,7 +17,7 @@ import com.revature.util.JwtConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
-@WebFilter("/*")
+
 public class Filter extends HttpFilter {
 	
 	private static final long serialVersionUID = 1L;

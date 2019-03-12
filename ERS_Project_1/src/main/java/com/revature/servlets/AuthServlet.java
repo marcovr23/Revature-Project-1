@@ -53,8 +53,9 @@ public class AuthServlet extends HttpServlet {
 			Principal principal = new Principal(user.getId(), user.getUsername(), user.getRole());
 			out.write(mapper.writeValueAsString(principal));
 			
+			log.info("Newly Created Principal is " + principal);
 			resp.setStatus(200);
-			resp.addHeader(JwtConfig.HEADER, JwtConfig.PREFIX + JwtGenerator.createJwt(user));
+			resp.addHeader("Auth", mapper.writeValueAsString(principal));
 			
 		} catch (MismatchedInputException mie) {
 			log.error(mie.getMessage());

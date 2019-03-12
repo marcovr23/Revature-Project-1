@@ -26,8 +26,8 @@ public class ViewServlet extends HttpServlet {
 		if(nextView != null) {
 			try {
 				log.info("Inside of View Servlet, Recieved nextView from RequestViewHelper. Next View is " + nextView);
-				log.info("Current header is " + req.getHeader(JwtConfig.HEADER));
-				req.getRequestDispatcher(nextView).forward(req, resp);
+				req.getRequestDispatcher("partials/employee.html").forward(req, resp);
+				log.info(req);
 			} catch (Exception e) {
 				log.error(e.getMessage());
 				resp.setStatus(500);

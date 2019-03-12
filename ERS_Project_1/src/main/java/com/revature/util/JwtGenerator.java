@@ -4,8 +4,7 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
-import com.revature.models.User;
-
+import com.revature.models.Principal;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,7 +13,7 @@ public class JwtGenerator {
 	
 	private static Logger log = Logger.getLogger(JwtGenerator.class);
 	
-	public static String createJwt(User subject) {
+	public static String createJwt(Principal subject) {
 		log.info("Creating new JWT for: " + subject.getUsername());
 		
 		// The JWT Signature Algorithm used to sign the token
