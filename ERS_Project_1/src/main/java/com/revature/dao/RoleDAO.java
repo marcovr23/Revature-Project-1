@@ -25,7 +25,7 @@ public class RoleDAO {
 	            // REGULAR STATEMENT
 	            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM ers_user_roles");
 	            while(rs.next()) {
-	            	roles.add(new Role(rs.getInt("ers_users_role_id"), rs.getString("user_role")));
+	            	roles.add(new Role(rs.getInt("user_role_id"), rs.getString("user_role")));
 	            }
 	            
 	        } catch (SQLException e) {
@@ -63,7 +63,7 @@ public class RoleDAO {
 				conn.setAutoCommit(false);
 				
 				String [] keys = new String[1];
-				keys[0] = "ers_users_role_id";
+				keys[0] = "user_role_id";
 				
 				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_user_roles VALUES (0, ?)", keys);
 				pstmt.setString(1, newRole.getRoleName());
@@ -88,7 +88,7 @@ public class RoleDAO {
 	private Role mapResultSet(ResultSet rs) throws SQLException {
 		Role role = new Role();
 		
-			role.setRoleId(rs.getInt("ers_users_role_id"));
+			role.setRoleId(rs.getInt("user_role_id"));
 			role.setRoleName(rs.getString("user_role"));
 			
 		return role;
