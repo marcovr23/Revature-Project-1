@@ -50,7 +50,7 @@ public class AuthServlet extends HttpServlet {
 				return;
 			}
 			
-			Principal principal = new Principal(user.getId(), user.getUsername(), user.getRole().getRoleName());
+			Principal principal = new Principal(user.getId(), user.getUsername(), user.getRole());
 			out.write(mapper.writeValueAsString(principal));
 			
 			resp.setStatus(200);

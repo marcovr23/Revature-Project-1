@@ -30,11 +30,11 @@ public class Filter extends HttpFilter {
 		
 		// 1. Get the HTTP header named "Authorization"
 		String header = req.getHeader(JwtConfig.HEADER);
-		System.out.println("header  right after read is: " + header);
+		log.info("The current jwt header is " + header);
 		
 		// 2. Validate the header values and check the prefix
 		if(header == null || !header.startsWith(JwtConfig.PREFIX)) {
-			System.out.println("header in compare method is: " + header);
+			log.info("header is null or starts with prefix. Current header is " + header);
 
 			log.info("Request originates from an unauthenticated origin");
 			

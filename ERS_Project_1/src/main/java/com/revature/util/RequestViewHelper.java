@@ -16,13 +16,14 @@ public class RequestViewHelper {
 	
 	public static String process(HttpServletRequest request) {
 		
-		Principal principal = new Principal();
 		
-		switch(request.getRequestURI()) {
+		log.info("Inside Request View Helper Current Request URI is " + request.getRequestURI());
+		
+		switch(request.getRequestURI().toLowerCase()) {
 		
 		case "/ers_project_1/employee.view":
 			
-			 principal = (Principal) request.getAttribute("principal");
+			Principal principal = (Principal) request.getAttribute("principal");
 			
 			if(principal == null) {
 				log.warn("No principal attribute found on request object");

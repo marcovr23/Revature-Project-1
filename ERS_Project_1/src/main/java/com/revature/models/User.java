@@ -8,7 +8,7 @@ public class User {
 	private String firstname;
 	private String lastname;
 	private String email;
-	private Role role;
+	private String role;
 	
 	public int getId() {
 		return id;
@@ -46,10 +46,10 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Role getRole() {
+	public String getRole() {
 		return role;
 	}
-	public void setRole(Role role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 	@Override
@@ -114,7 +114,7 @@ public class User {
 				+ ", lastname=" + lastname + ", email=" + email + ", role=" + role + "]";
 	}
 	public User(int id, String username, String password, String firstname, String lastname, String email,
-			Role role) {
+			String role) {
 		super();
 		this.id = id;
 		this.username = username;
