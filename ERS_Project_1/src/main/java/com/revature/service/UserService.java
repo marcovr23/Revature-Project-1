@@ -52,6 +52,9 @@ public class UserService {
 			user.setPassword(AES.decrypt(user.getPassword()));
 			return user;
 		}
+		public User getUserByUsername(String username) {
+			return userDao.getByUsername(username);
+		}
 }
 	/*
 	 * 

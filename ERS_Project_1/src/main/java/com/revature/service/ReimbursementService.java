@@ -18,24 +18,11 @@ public class ReimbursementService {
 		
 		public List<Reimbursement> getAllReimbursements() {
 			List<Reimbursement> reimbursements = reimbursementDao.getAll();
-			for(Reimbursement r : reimbursements) {
-				reimbursement
-			}
-			return reimbursementDao.getAll();
-		}
-		
-		public User getUserByCredentials(String username, String password) {
 			
-			User user = null;
-			
-			if(!username.equals("") && !password.equals("")) {
-				user = reimbursementDao.getByCredentials(username, password);
-				return user;
+			return reimbursements;
 		}
-		log.info("Empty username and/or password");
-		return null;
-		}	
-		public Reimbursement addUser(Reimbursement newReimbursement) {
+			
+		public Reimbursement addReimbursement(Reimbursement newReimbursement) {
 	
 			// Verify that there are no empty fields
 			if (newReimbursement.getUsername().equals("") 

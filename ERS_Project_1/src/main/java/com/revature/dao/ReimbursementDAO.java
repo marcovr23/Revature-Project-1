@@ -119,27 +119,52 @@ public class ReimbursementDAO {
 		
 	}
 	
-	public boolean approveDeny(String approval, String resolver, String resolved) {
+//	public boolean update(String approval, String resolver, String resolved) {
+//		
+//		try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+//			
+//			conn.setAutoCommit(false);
+//			
+//			PreparedStatement pstmt = conn.prepareStatement("UPDATE ers_reimbursement SET reimb_status = ?, reimb_resolver = ?, reimb_resolved = ?");
+//			pstmt.setString(1, approval);
+//			pstmt.setString(2, resolver);
+//			pstmt.setString(3, resolved); // this is a timestamp value in our database
+//			
+//			if(pstmt.executeUpdate() != 0) {
+//				conn.commit();
+//				return true;
+//			}
+//			
+//		} catch (SQLException e) {
+//			log.error(e.getMessage());
+//		}
+//		
+//		return false;
+//	}
+public Reimbursement update(Reimbursement updatedReimbursement) {
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
 			
 			conn.setAutoCommit(false);
 			
-			PreparedStatement pstmt = conn.prepareStatement("UPDATE ers_reimbursement_status SET reimb_status = ?, reimb_resolver = ?, reimb_resolved = ?");
-			pstmt.setString(1, approval);
-			pstmt.setString(2, resolver);
-			pstmt.setString(3, resolved);
+			String sql = "UPDATE ers_reimbursement SET status_id = ?, first_name = ?, last_name = ? WHERE reimb_id = ?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, updatedReimbursement.getStatusId());
+			pstmt.setInt(2, updatedReimbursement.getResolver());
+			pstmt.setInt(3, updatedReimbursement.getResolved()); // this should be of type timestamp unless we pass it in as a string
+			pstmt.setInt(4, updatedReimbursement.getReimbId());
 			
 			if(pstmt.executeUpdate() != 0) {
 				conn.commit();
-				return true;
+				return updatedReimbursement;
 			}
 			
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 		}
 		
-		return false;
+		return null;
 	}
 	
 	private List<Reimbursement> mapResultSet(ResultSet rs) throws SQLException {

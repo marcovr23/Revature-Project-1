@@ -1,6 +1,5 @@
 package com.revature.dao;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,34 +10,48 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.util.ConnectionFactory;
-
-import oracle.jdbc.internal.OracleTypes;
 
 public class UserDAO {
 	private static Logger log = Logger.getLogger(UserDAO.class);
 	
-	public List<User> getAll() {
-
+//	public List<User> getAll() {
+//
+//		List<User> users = new ArrayList<>();
+//
+//		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+//
+//			CallableStatement cstmt = conn.prepareCall("{CALL get_all_users(?)}");
+//			cstmt.registerOutParameter(1, OracleTypes.CURSOR);
+//			cstmt.execute();
+//
+//			ResultSet rs = (ResultSet) cstmt.getObject(1);
+//			users = this.mapResultSet(rs);
+//
+//		} catch (SQLException e) {
+//			log.error(e.getMessage());
+//		}
+//
+//		return users;
+//	}
+	
+public List<User> getAll() {
+		
 		List<User> users = new ArrayList<>();
-
-		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-
-			CallableStatement cstmt = conn.prepareCall("{CALL get_all_users(?)}");
-			cstmt.registerOutParameter(1, OracleTypes.CURSOR);
-			cstmt.execute();
-
-			ResultSet rs = (ResultSet) cstmt.getObject(1);
+		
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+			
+			ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM ers_users JOIN user_roles USING (role_id)");
 			users = this.mapResultSet(rs);
-
+			
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 		}
-
+		
 		return users;
 	}
-	
 //	Get User by Username and Password 
 	
 	 
@@ -58,7 +71,7 @@ public User getByCredentials(String username, String password) {
             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_users WHERE ers_username = ? AND ers_password = ?");
             
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
+            pstmt.setString(2, password); // does this value correctly hold the encrypted password?
             
             ResultSet rs = pstmt.executeQuery();
             List<User> users = this.mapResultSet(rs);
@@ -86,16 +99,18 @@ public User add(User newUser) {
         pstmt.setString(5, newUser.getEmail());
 
         
-        int rowsInserted = pstmt.executeUpdate();
-        ResultSet rs = pstmt.getGeneratedKeys();
-        
-        if(rowsInserted != 0) {
-            
-            while(rs.next()) {
-                newUser.setId(rs.getInt(1));
-            }
-            
-            conn.commit();
+        if(pstmt.executeUpdate() != 0) {
+			
+			// Retrieve the generated primary key for the newly added user
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			
+			while(rs.next()) {
+				newUser.setId(rs.getInt(1));
+				newUser.setRole(new Role(3));
+			}
+			
+			conn.commit();
         }
                 
     } catch (SQLIntegrityConstraintViolationException sicve) { 
@@ -110,13 +125,32 @@ public User add(User newUser) {
     return newUser;
 }
 
+public User getByUsername(String username) {
+	
+	User user = null;
+	
+	try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+		
+		PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_users JOIN ers_user_roles USING (user_role_id) WHERE username = ?");
+		pstmt.setString(1, username);
+		
+		List<User> users = this.mapResultSet(pstmt.executeQuery());
+		if (!users.isEmpty()) user = users.get(0);
+		
+	} catch (SQLException e) {
+		log.error(e.getMessage());
+	}
+	
+	return user;
+}
+
 public User getById(int id) {
     
     User user = new User();
     
     try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
         
-        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_users WHERE ers_users_id = ?");
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_users JOIN ers_user_roles USING (user_role_id) WHERE ers_users_id = ?");
         
         pstmt.setInt(1, id);
         
