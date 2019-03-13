@@ -45,9 +45,14 @@ public class ReimbursementService {
 		
 		public List<Reimbursement> getReimbursementsById(int id) {
 			List<Reimbursement> reimbs = reimbDao.getById(id);
-			if (id < 1) return null;
+			//if (id < 1) return null;		What is this doing?
 			return reimbs;
 		
+		}
+		
+		public List<Reimbursement> getReimbursementByStatus(int status){
+			List<Reimbursement> reimbs = reimbDao.getByStatus(status);
+			return reimbs;
 		}
 }
 	/*

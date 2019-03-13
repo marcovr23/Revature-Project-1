@@ -127,8 +127,25 @@ async function loadEmployeeDashboard() {
     configureDashboard();
 }
 
-function configureDashboard() {
+async function configureDashboard() {
     console.log('in configureDashboard()');
+    let response = await fetch('reimb', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(localStorage.getItem('jwt', response.headers.get('Authorization')))
+    });
+
+    if(response.status == 200) {
+        document.getElementById('alert-msg').style.display = "none";
+        localStorage.setItem('jwt', response.headers.get('Authorization'));
+        console.log(localStorage.getItem('jwt', response.headers.get('Authorization')));
+        loadEmployeeDashboard();
+    } else {
+        document.getElementById('alert-msg').style.display = "block";
+    }
 }
 
 

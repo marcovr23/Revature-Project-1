@@ -2,6 +2,7 @@ package com.revature.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,11 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.revature.models.Principal;
 import com.revature.models.Reimbursement;
 import com.revature.service.ReimbursementService;
+import com.revature.util.JwtConfig;
+import com.revature.util.JwtGenerator;
 
-@WebServlet("/reim/*")
+@WebServlet("/reimb")
 public class ReimbServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -29,6 +33,7 @@ public class ReimbServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		Principal principal = (Principal) req.getAttribute("principal");
+		int role = Integer.parseInt(principal.getRole());
 		
 		String requestURI = req.getRequestURI();
 		ObjectMapper map = new ObjectMapper();
@@ -41,21 +46,29 @@ public class ReimbServlet extends HttpServlet {
 				resp.setStatus(401);
 				return;
 			}
+			List<Reimbursement> reimbs = new ArrayList<>();
 			
-			if(requestURI.equals("/ers_project_1/admin") || requestURI.equals("/ers_project_1/admin/")) {
-				// fix this - set to 2(?)
-
-				if (Integer.parseInt(principal.getRole()) != 2 ) {
-					log.warn("Unauthorized access attempt made from origin: " + req.getLocalAddr());
-					resp.setStatus(401);
-					return;
+			if(role == 1) {
+				 reimbs =	reimbService.getReimbursementsById(principal.getId());
 				}
+			if(role == 2) {
+				 reimbs =	reimbService.getAllReimbursements();
+				}
+			if(!reimbs.isEmpty()) {	
+			out.write(map.writeValueAsString(reimbs));
+			
+			resp.setStatus(200);
+			resp.addHeader("data", map.writeValueAsString(reimbs));
+			}
 				
-				List<Reimbursement> users = reimb.getAllUsers();
-				
+		} catch (MismatchedInputException mie) {
+			log.error(mie.getMessage());
+			resp.setStatus(400);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			resp.setStatus(500);
 		}
 		
-		}
 	}
 	
 	
