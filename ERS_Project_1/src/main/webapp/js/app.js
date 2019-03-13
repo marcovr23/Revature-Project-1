@@ -125,10 +125,11 @@ async function loadEmployeeDashboard() {
     APP_VIEW.innerHTML = await fetchView('employee.view');
     DYNAMIC_CSS_LINK.href = 'css/employee.css';
     configureDashboard();
-}
+};
 
 async function configureDashboard() {
     console.log('in configureDashboard()');
+    document.getElementById('sel1').addEventListener('click', newReimb);
     let response = await fetch('reimb', {
         method: 'GET',
         mode: 'cors',
@@ -144,9 +145,52 @@ async function configureDashboard() {
         localStorage.setItem('Table', response.headers.get('data'));
         console.log(localStorage.getItem('Table'));
     } 
+
+    
 }
 
+async function newReimb() {
+    console.log('in newReimb()');
 
+    let newReimb = {
+    
+        reimbId: {},
+        amount: document.getElementById('amount').value,
+        resolver: 1,
+        statusId: 1,
+        author: {},
+        desc: document.getElementById('desc').value,
+        typeId: document.getElementById('sel1').value
+    };
+    
+    // POST information to servlet
+    let response = await fetch('reimb', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('jwt')
+        },
+        body: JSON.stringify(newReimb)
+    });
+    
+    let responseBody = await response.json();
+    console.log(responseBody);
+    console.log(newReimb);
+    console.log(response);
+
+    // if(response.status == 200) {
+    //     viewReim();
+    // }
+
+}
+
+async function viewReim() {
+    console.log('in viewReim');
+
+    APP_VIEW.innerHTML = await fetchView('view-reim.view');
+    DYNAMIC_CSS_LINK.href = 'css/app.css';
+}
 //-------------------------------------------------------------------------------------
 async function fetchView(uri) {
     console.log(localStorage.getItem('jwt'));
