@@ -22,25 +22,31 @@ public class ReimbursementService {
 			return reimbursements;
 		}
 			
-		public Reimbursement addReimbursement(Reimbursement newReimbursement) {
+		public Reimbursement addReimbursement(String amount, String description, String type, String author, String date) {
 	
 			// Verify that there are no empty fields
-			if (newReimbursement.getUsername().equals("") 
-					|| newReimbursement.getPassword().equals("") 
-					|| newReimbursement.getFirstname().equals("")
-					|| newReimbursement.getLastname().equals("")) {
+			if (amount.equals("") 
+					|| description.equals("") 
+					|| type.equals("") 
+					|| author.equals("")
+					|| date.equals("")) {
 				log.info("New user object is missing required fields");
 				return null;
 			}
+			
+			int amnt = Integer.parseInt(amount);
+			int typeId = Integer.parseInt(type);
+			int authorId = Integer.parseInt(author);
+			
+			Reimbursement newReimbursement = new Reimbursement(amnt, description, typeId, authorId, date);
 	
 			return reimbDao.add(newReimbursement);
 		}
 		
-		public Reimbursement getReimbursementById(int id) {
-			Reimbursement reimb = reimbDao.getById(id);
+		public List<Reimbursement> getReimbursementsById(int id) {
+			List<Reimbursement> reimbs = reimbDao.getById(id);
 			if (id < 1) return null;
-			if (id == principal.getId()) return null; // this might be dumb ? should be on getreimbursementbystatus
-			return reimb;
+			return reimbs;
 		
 		}
 }

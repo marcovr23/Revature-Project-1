@@ -24,6 +24,7 @@ public class RequestViewHelper {
 		case "/ers_project_1/employee.view":
 			
 			Principal principal = (Principal) request.getAttribute("principal");
+			log.info("Current Principal is " + principal);
 			
 			if(principal == null) {
 				log.warn("No principal attribute found on request object");

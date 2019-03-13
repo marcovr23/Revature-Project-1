@@ -2,6 +2,7 @@ package com.revature.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Principal;
+import com.revature.models.Reimbursement;
 import com.revature.service.ReimbursementService;
 
 @WebServlet("/reim/*")
@@ -21,7 +23,7 @@ public class ReimbServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger(UserServlet.class);
 	
-	private final ReimbursementService reimbursementService = new ReimbursementService();
+	private final ReimbursementService reimbService = new ReimbursementService();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,16 +42,16 @@ public class ReimbServlet extends HttpServlet {
 				return;
 			}
 			
-			if(requestURI.equals("/ers_project_1/users") || requestURI.equals("/ers_project_1/users/")) {
+			if(requestURI.equals("/ers_project_1/admin") || requestURI.equals("/ers_project_1/admin/")) {
 				// fix this - set to 2(?)
 
-				if (!principal.getRole().equalsIgnoreCase("ADMIN")) {
+				if (Integer.parseInt(principal.getRole()) != 2 ) {
 					log.warn("Unauthorized access attempt made from origin: " + req.getLocalAddr());
 					resp.setStatus(401);
 					return;
 				}
 				
-				List<User> users = userService.getAllUsers();
+				List<Reimbursement> users = reimb.getAllUsers();
 				
 		}
 		

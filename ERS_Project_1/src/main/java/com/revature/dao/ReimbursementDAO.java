@@ -97,14 +97,12 @@ public class ReimbursementDAO {
 //			reimb_description|reimb_receipt|reimb_author|reimb_resolver|
 //			reimb_status_id|reimb_type_id|reimb_date
 			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_reimbursement VALUES "
-					+ "(0, ?, ?, 0, ?, 0, ?, 0, ?, ?, ?");
+					+ "(0, ?, ?, 0, ?, 0, ?, 0, 3, ?, ?");
 			pstmt.setInt(1, reimb.getAmount()); 
 			pstmt.setString(2, reimb.getSubmitted()); // setTimestamp/toString/or change value
 			pstmt.setString(3, reimb.getDesc());
 			pstmt.setInt(4, reimb.getAuthor());
-			pstmt.setInt(5, reimb.getStatusId());
-			pstmt.setInt(6, reimb.getTypeId());
-			pstmt.setString(7, reimb.getDate()); // need to figure out how we're passing timestamps ahh			
+			pstmt.setInt(5, reimb.getTypeId());		
 			if(pstmt.executeUpdate() != 0) {
 				
 				// Retrieve the generated primary key for the newly added reimb
@@ -178,9 +176,9 @@ public Reimbursement update(Reimbursement updatedReimbursement) {
 		
 		return null;
 	}
-public Reimbursement getById(int id) { // I'm not sure if this is right
+public List<Reimbursement> getById(int id) { // I'm not sure if this is right
     
-    Reimbursement reimb = new Reimbursement();
+    List<Reimbursement> reimbs = new ArrayList<>();
     
     try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
         
@@ -189,15 +187,14 @@ public Reimbursement getById(int id) { // I'm not sure if this is right
         pstmt.setInt(1, id);
         
         ResultSet rs = pstmt.executeQuery();
-        List<Reimbursement> reimbs = this.mapResultSet(rs);
-        if (reimbs.isEmpty()) reimb = null;
-        else reimb = reimbs.get(0);
+        reimbs = this.mapResultSet(rs);
+        if (reimbs.isEmpty()) return null;
         
     } catch (SQLException e) {
         log.error(e.getMessage());
     }
             
-    return reimb;
+    return reimbs;
 }
 	
 	private List<Reimbursement> mapResultSet(ResultSet rs) throws SQLException {
@@ -213,7 +210,6 @@ public Reimbursement getById(int id) { // I'm not sure if this is right
 		reimbursement.setResolver(rs.getInt("reimb_resolver"));
 		reimbursement.setStatusId(rs.getInt("reimb_status_id"));
 		reimbursement.setTypeId(rs.getInt("reimb_type_id"));
-		reimbursement.setDate(rs.getString("reimb_date"));
 		reimbursements.add(reimbursement);
 	}
 return reimbursements;
