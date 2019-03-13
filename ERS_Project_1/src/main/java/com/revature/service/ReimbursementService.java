@@ -1,5 +1,6 @@
 package com.revature.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -7,10 +8,10 @@ import org.apache.log4j.Logger;
 import com.revature.dao.ReimbursementDAO;
 import com.revature.models.Principal;
 import com.revature.models.Reimbursement;
-import com.revature.models.User;
 
 public class ReimbursementService {
 	
+
 	private static Logger log = Logger.getLogger(ReimbursementService.class);
 	
 		private ReimbursementDAO reimbDao = new ReimbursementDAO();
@@ -22,16 +23,21 @@ public class ReimbursementService {
 			return reimbursements;
 		}
 			
-		public Reimbursement addReimbursement(Reimbursement newReimbursement) {
+		public Reimbursement addReimbursement(String amount, String submitted, String desc, String author, String type) {
 	
 			// Verify that there are no empty fields
-			if (newReimbursement.getUsername().equals("") 
-					|| newReimbursement.getPassword().equals("") 
-					|| newReimbursement.getFirstname().equals("")
-					|| newReimbursement.getLastname().equals("")) {
+			if (amount.equals("") 
+					|| submitted.equals("") 
+					|| desc.equals("")
+					|| author.equals("")
+					|| type.equals("")) {
 				log.info("New user object is missing required fields");
 				return null;
 			}
+			
+			int amnt = Integer.parseInt(amount);
+			
+			Reimbursement newReimbursement = new Reimbursement(amnt, submitted, desc, author, type);
 	
 			return reimbDao.add(newReimbursement);
 		}
@@ -39,10 +45,19 @@ public class ReimbursementService {
 		public Reimbursement getReimbursementById(int id) {
 			Reimbursement reimb = reimbDao.getById(id);
 			if (id < 1) return null;
-			if (id == principal.getId()) return null; // this might be dumb ? should be on getreimbursementbystatus
 			return reimb;
 		
 		}
+		
+		public List<Reimbursement> getReimbByIdAndStatus(String id, String status){			
+			return reimbDao.getByStatusAndId(status, id);
+		}
+		
+		public List<Reimbursement> getReimbByStatus(String status){
+			return reimbDao.getByStatus(status);
+		}
+		
+		public Reimbursement update()
 }
 	/*
 	Get all Reimb 

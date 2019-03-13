@@ -13,6 +13,7 @@ public class Reimbursement {
 	private int statusId;
 	private int typeId;
 	private String date;
+	
 	public int getReimbId() {
 		return reimbId;
 	}
@@ -161,6 +162,12 @@ public class Reimbursement {
 		this.desc = desc;
 		this.author = author;
 		this.date = date;
+	}
+	public Reimbursement(int amnt, String submitted, String desc, String author, String type) {
+		this.amount = amnt;
+		this.desc = desc;
+		this.author = Integer.parseInt(author);
+		this.type = type;
 	}
 	
 	
