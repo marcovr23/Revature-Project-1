@@ -47,7 +47,7 @@ public class ReimbursementDAO {
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
         	 // REGULAR STATEMENT
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM ers_reimbursements");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM ers_reimbursement");
             reimbursements = this.mapResultSet(rs);
 
         } catch (SQLException e) {

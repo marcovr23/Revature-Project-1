@@ -33,7 +33,7 @@ public class ReimbServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		Principal principal = (Principal) req.getAttribute("principal");
-		int role = Integer.parseInt(principal.getRole());
+		
 		
 		String requestURI = req.getRequestURI();
 		ObjectMapper map = new ObjectMapper();
@@ -46,6 +46,7 @@ public class ReimbServlet extends HttpServlet {
 				resp.setStatus(401);
 				return;
 			}
+			int role = Integer.parseInt(principal.getRole());
 			List<Reimbursement> reimbs = new ArrayList<>();
 			
 			if(role == 1) {
@@ -54,7 +55,9 @@ public class ReimbServlet extends HttpServlet {
 			if(role == 2) {
 				 reimbs =	reimbService.getAllReimbursements();
 				}
-			if(!reimbs.isEmpty()) {	
+			
+			log.info("Current value of reimbrusements are " + reimbs);
+			if(!reimbs.isEmpty() && reimbs != null) {	
 			out.write(map.writeValueAsString(reimbs));
 			
 			resp.setStatus(200);
@@ -64,9 +67,11 @@ public class ReimbServlet extends HttpServlet {
 		} catch (MismatchedInputException mie) {
 			log.error(mie.getMessage());
 			resp.setStatus(400);
+			mie.printStackTrace();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			resp.setStatus(500);
+			e.printStackTrace();
 		}
 		
 	}
