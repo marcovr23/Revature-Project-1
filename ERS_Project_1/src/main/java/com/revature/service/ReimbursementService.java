@@ -22,25 +22,19 @@ public class ReimbursementService {
 			return reimbursements;
 		}
 			
-		public Reimbursement addReimbursement(String amount, String description, String type, String author, String date) {
+		public Reimbursement addReimbursement(Reimbursement newReimb) {
 	
-			// Verify that there are no empty fields
-			if (amount.equals("") 
-					|| description.equals("") 
-					|| type.equals("") 
-					|| author.equals("")
-					|| date.equals("")) {
-				log.info("New user object is missing required fields");
-				return null;
-			}
+//			// Verify that there are no empty fields
+//			if (newReimb.getAmount() 
+//					|| description.equals("") 
+//					|| type.equals("") 
+//					|| author.equals("")
+//					|| date.equals("")) {
+//				log.info("New user object is missing required fields");
+//				return null;
+//			}
 			
-			int amnt = Integer.parseInt(amount);
-			int typeId = Integer.parseInt(type);
-			int authorId = Integer.parseInt(author);
-			
-			Reimbursement newReimbursement = new Reimbursement(amnt, description, typeId, authorId, date);
-	
-			return reimbDao.add(newReimbursement);
+			return reimbDao.add(newReimb);
 		}
 		
 		public List<Reimbursement> getReimbursementsById(int id) {

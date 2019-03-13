@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.revature.models.Principal;
 import com.revature.models.Reimbursement;
+import com.revature.models.User;
 import com.revature.service.ReimbursementService;
 import com.revature.util.JwtConfig;
 import com.revature.util.JwtGenerator;
@@ -76,6 +77,35 @@ public class ReimbServlet extends HttpServlet {
 		
 	}
 	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("application/json");
+		Principal principal = (Principal) req.getAttribute("principal");
+		ObjectMapper mapper = new ObjectMapper();
+		Reimbursement newReimb = null;
+		try {
+			 newReimb = mapper.readValue(req.getInputStream(), Reimbursement.class);
+		} catch (MismatchedInputException mie) {
+			log.error(mie.getMessage());
+			resp.setStatus(400);
+			return;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			resp.setStatus(500);
+			return;
+		}
+		
+		newReimb = reimbService.addReimbursement(newReimb);
+		
+		try {
+			String userJson = mapper.writeValueAsString(newReimb);
+			PrintWriter out = resp.getWriter();
+			out.write(userJson);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			resp.setStatus(500);
+		}
+	}
 	
 }
 
