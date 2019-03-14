@@ -26,7 +26,7 @@ import com.revature.util.JwtGenerator;
 public class ReimbServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger log = Logger.getLogger(UserServlet.class);
+	private static Logger log = Logger.getLogger(ReimbServlet.class);
 	
 	private final ReimbursementService reimbService = new ReimbursementService();
 	

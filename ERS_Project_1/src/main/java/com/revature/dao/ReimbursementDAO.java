@@ -149,7 +149,7 @@ public class ReimbursementDAO {
 //		
 //		return false;
 //	}
-public Reimbursement update(Reimbursement updatedReimbursement) {
+public Reimbursement update(Reimbursement newReimb) {
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
 			
@@ -162,14 +162,14 @@ public Reimbursement update(Reimbursement updatedReimbursement) {
 					+ "reimb_resolver = ?, "
 					+ "reimb_resolved = ? "
 					+ "WHERE reimb_id = ?");
-			pstmt.setInt(1, updatedReimbursement.getStatusId());
-			pstmt.setInt(2, updatedReimbursement.getResolver());
-			pstmt.setString(3, updatedReimbursement.getResolved()); // this should be of type timestamp unless we pass it in as a string
-			pstmt.setInt(4, updatedReimbursement.getReimbId());
+			pstmt.setInt(1, newReimb.getStatusId());
+			pstmt.setInt(2, newReimb.getResolver());
+			pstmt.setString(3, newReimb.getResolved()); 
+			pstmt.setInt(4, newReimb.getReimbId());
 			
 			if(pstmt.executeUpdate() != 0) {
 				conn.commit();
-				return updatedReimbursement;
+				return newReimb;
 			}
 			
 		} catch (SQLException e) {

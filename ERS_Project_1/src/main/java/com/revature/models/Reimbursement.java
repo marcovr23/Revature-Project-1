@@ -12,6 +12,7 @@ public class Reimbursement {
 	private int resolver;
 	private int statusId;
 	private int typeId;
+	
 	public int getReimbId() {
 		return reimbId;
 	}

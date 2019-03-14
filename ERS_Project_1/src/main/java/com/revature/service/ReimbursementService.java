@@ -14,16 +14,24 @@ public class ReimbursementService {
 	
 	private static Logger log = Logger.getLogger(ReimbursementService.class);
 	
+	
 		private ReimbursementDAO reimbDao = new ReimbursementDAO();
 		private Principal principal = new Principal();
-		 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-		   LocalDateTime now = LocalDateTime.now();  
+		 
 		
 		public List<Reimbursement> getAllReimbursements() {
 			List<Reimbursement> reimbursements = reimbDao.getAll();
 			
 			return reimbursements;
 		}
+		
+//		public Reimbursement update(Reimbursement update) {
+//			
+//			
+//			update = reimbDao.update(update);
+//			
+//			return update;
+//		}
 			
 		public Reimbursement addReimbursement(Reimbursement newReimb) {
 	
@@ -36,8 +44,10 @@ public class ReimbursementService {
 //				log.info("New user object is missing required fields");
 //				return null;
 //			}
-			String time = dtf.format(now);
-			log.info("Current time is " + time);
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+			   LocalDateTime now = LocalDateTime.now();
+			   	String time = dtf.format(now);
+			   	
 			 newReimb.setSubmitted(time);
 			 newReimb.setStatusId(3);
 			
@@ -54,6 +64,13 @@ public class ReimbursementService {
 		public List<Reimbursement> getReimbursementByStatus(int status){
 			List<Reimbursement> reimbs = reimbDao.getByStatus(status);
 			return reimbs;
+		}
+
+		public Reimbursement update(Reimbursement newReimb) {
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+			LocalDateTime now = LocalDateTime.now();
+			newReimb.setResolved(dtf.format(now));		
+			return reimbDao.update(newReimb);
 		}
 }
 	/*
