@@ -97,10 +97,9 @@ public class ReimbursementDAO {
 			
 			conn.setAutoCommit(false);
 //			reimb_id|reimb_amount|reimb_submitted|reimb_resolved|
-//			reimb_description|reimb_receipt|reimb_author|reimb_resolver|
-//			reimb_status_id|reimb_type_id|reimb_date
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_reimbursement VALUES "
-					+ "(0, ?, ?, 0, ?, 0, ?, 0, 3, ?, ?");
+//			reimb_description|reimb_author|reimb_resolver|
+//			reimb_status_id|reimb_type_id
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_reimbursement VALUES (0,?,?,0,?,?,81,3,?)");
 			pstmt.setInt(1, reimb.getAmount()); 
 			pstmt.setString(2, reimb.getSubmitted()); // setTimestamp/toString/or change value
 			pstmt.setString(3, reimb.getDesc());

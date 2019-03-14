@@ -1,5 +1,7 @@
 package com.revature.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -7,7 +9,6 @@ import org.apache.log4j.Logger;
 import com.revature.dao.ReimbursementDAO;
 import com.revature.models.Principal;
 import com.revature.models.Reimbursement;
-import com.revature.models.User;
 
 public class ReimbursementService {
 	
@@ -15,6 +16,8 @@ public class ReimbursementService {
 	
 		private ReimbursementDAO reimbDao = new ReimbursementDAO();
 		private Principal principal = new Principal();
+		 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		   LocalDateTime now = LocalDateTime.now();  
 		
 		public List<Reimbursement> getAllReimbursements() {
 			List<Reimbursement> reimbursements = reimbDao.getAll();
@@ -33,6 +36,10 @@ public class ReimbursementService {
 //				log.info("New user object is missing required fields");
 //				return null;
 //			}
+			String time = dtf.format(now);
+			log.info("Current time is " + time);
+			 newReimb.setSubmitted(time);
+			 newReimb.setStatusId(3);
 			
 			return reimbDao.add(newReimb);
 		}

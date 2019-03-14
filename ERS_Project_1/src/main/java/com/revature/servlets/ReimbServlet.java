@@ -85,13 +85,17 @@ public class ReimbServlet extends HttpServlet {
 		Reimbursement newReimb = null;
 		try {
 			 newReimb = mapper.readValue(req.getInputStream(), Reimbursement.class);
+			 newReimb.setAuthor(principal.getId());
+			 log.info("new reimbursement entered is " + newReimb);
 		} catch (MismatchedInputException mie) {
 			log.error(mie.getMessage());
 			resp.setStatus(400);
+			mie.printStackTrace();
 			return;
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			resp.setStatus(500);
+			e.printStackTrace();
 			return;
 		}
 		
@@ -104,6 +108,8 @@ public class ReimbServlet extends HttpServlet {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			resp.setStatus(500);
+			e.printStackTrace();
+			return;
 		}
 	}
 	

@@ -129,7 +129,7 @@ async function loadEmployeeDashboard() {
 
 async function configureDashboard() {
     console.log('in configureDashboard()');
-    document.getElementById('sel1').addEventListener('click', newReimb);
+    document.getElementById('to-add-reimb').addEventListener('click', newReimb);
     let response = await fetch('reimb', {
         method: 'GET',
         mode: 'cors',
@@ -152,15 +152,26 @@ async function configureDashboard() {
 async function newReimb() {
     console.log('in newReimb()');
 
+    let reimbType =  document.getElementById('sel1').value;
+    switch(reimbType){
+        case("Lodging"):
+            reimbType = 1;
+            break;
+        case("Food"):
+            reimbType = 3;
+            break;
+        case("Travel"):
+            reimbType = 2;
+            break;
+        case("Other"):
+            reimbType = 4;
+            break;
+    }
     let newReimb = {
-    
-        reimbId: {},
+        
         amount: document.getElementById('amount').value,
-        resolver: 1,
-        statusId: 1,
-        author: {},
         desc: document.getElementById('desc').value,
-        typeId: document.getElementById('sel1').value
+        typeId: reimbType
     };
     
     // POST information to servlet
