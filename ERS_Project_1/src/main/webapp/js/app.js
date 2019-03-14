@@ -270,16 +270,22 @@ async function populateTable(response){
         }
 
             document.getElementById("approve-button"+i).addEventListener('click',approve);
-            document.getElementById("deny-button"+i).addEventListener('click',function (e){
-                
+            document.getElementById("deny-button"+i).addEventListener('click',deny);     
     }
 }
 
+
 async function approve(){
     console.log("inside of approve");
-    let x = e.target + "";
-                x.slice(x.length-1);
+    let x = event.target.id + ""
+    let tryme = event.target.id + "";
+    tryme.slice(tryme.length-1);
+    console.log(tryme);
+                x = x.slice(x.length-1);
+                console.log("x is currently  " + x);
                 let body = document.getElementById('row-'+x);
+                console.log("inner text " + body.childNodes[0].innerText);
+                console.log("maybe array value " + body.innerText);
 
                 let response = await fetch('update', {
                     method: 'POST',
@@ -297,10 +303,6 @@ async function approve(){
                     console.log("HAAA HAA!")
                     console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
                 }
-
-            });
-    });
-
 }
 
 async function deny(i){
