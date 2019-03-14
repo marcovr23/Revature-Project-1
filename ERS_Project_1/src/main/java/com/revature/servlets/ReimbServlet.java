@@ -51,7 +51,9 @@ public class ReimbServlet extends HttpServlet {
 			List<Reimbursement> reimbs = new ArrayList<>();
 			
 			if(role == 1) {
+				log.info("Inside of user reimb servlet. Current user id is " + principal.getId());
 				 reimbs =	reimbService.getReimbursementsById(principal.getId());
+				 log.info("user reimbs are " + reimbs);
 				}
 			if(role == 2) {
 				 reimbs =	reimbService.getAllReimbursements();

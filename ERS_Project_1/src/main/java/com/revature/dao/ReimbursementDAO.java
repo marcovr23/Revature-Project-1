@@ -184,7 +184,7 @@ public List<Reimbursement> getById(int id) { // I'm not sure if this is right
     
     try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
         
-        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_reimbursement WHERE reimb_id = ?");
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_reimbursement WHERE reimb_author = ?");
         
         pstmt.setInt(1, id);
         
