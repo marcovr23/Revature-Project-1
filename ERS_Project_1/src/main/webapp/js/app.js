@@ -157,7 +157,7 @@ function aPT (response){
         
     }
 }
-function populateTable(response){
+async function populateTable(response){
     console.log("Inside of populateTable")
     for(let i = 0; i < response.length; i++){
         let row = document.createElement('tr');
@@ -270,32 +270,37 @@ function populateTable(response){
         }
 
             document.getElementById("approve-button"+i).addEventListener('click',approve);
-            document.getElementById("deny-button"+i).addEventListener('click',deny);
+            document.getElementById("deny-button"+i).addEventListener('click',function (e){
+                
     }
 }
 
-async function approve(i){
+async function approve(){
     console.log("inside of approve");
-    let body = document.getElementById("row-"+i);
-    body.statusId =1;
+    let x = e.target + "";
+                x.slice(x.length-1);
+                let body = document.getElementById('row-'+x);
 
-    let response = await fetch('update', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
+                let response = await fetch('update', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                if(response.status == 200){
+                    console.log("Denial went through")
+                    configureDashboard();
+                }else {
+                    console.log("HAAA HAA!")
+                    console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
+                }
+
+            });
     });
 
-    if(response.status == 200) {
-        // document.getElementById('alert-msg').style.display = "none";
-        // localStorage.setItem('jwt', response.headers.get('Authorization'));
-        // console.log(localStorage.getItem('jwt', response.headers.get('Authorization')));
-        // loadEmployeeDashboard();
-    } else {
-        // document.getElementById('alert-msg').style.display = "block";
-    }
 }
 
 async function deny(i){
