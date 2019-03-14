@@ -328,7 +328,7 @@ async function approve(){
                 }
 }
 
-async function deny(i){
+async function deny(){
     console.log("inside of deny");
     let x = event.target.id + ""
     let tryme = event.target.id + "";
