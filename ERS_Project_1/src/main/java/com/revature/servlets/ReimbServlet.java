@@ -57,6 +57,7 @@ public class ReimbServlet extends HttpServlet {
 				}
 			if(role == 2) {
 				 reimbs =	reimbService.getAllReimbursements();
+				 resp.addHeader("role", "admin");
 				}
 			
 			log.info("Current value of reimbrusements are " + reimbs);
@@ -64,7 +65,7 @@ public class ReimbServlet extends HttpServlet {
 			out.write(map.writeValueAsString(reimbs));
 			
 			resp.setStatus(200);
-			resp.addHeader("data", map.writeValueAsString(reimbs));
+			
 			}
 				
 		} catch (MismatchedInputException mie) {

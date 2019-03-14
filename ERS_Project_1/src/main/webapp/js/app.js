@@ -141,12 +141,86 @@ async function configureDashboard() {
 
     if(response.status == 200) {
         let responseBody = await response.json();
+        localStorage.setItem('role', response.headers.get('role'));
         console.log(responseBody);
-        localStorage.setItem('Table', response.headers.get('data'));
-        console.log(localStorage.getItem('Table'));
+        populateTable(responseBody);
+        //aPT(responseBody);
     } 
 
     
+}
+function aPT (response){
+    console.log("Inside APT with " + response);
+    for(let i = 0; i < response.length; i++){
+        console.log(response[i]);
+        console.log(response[i].desc);
+        
+    }
+}
+function populateTable(response){
+    console.log("Inside of populateTable")
+    for(let i = 0; i < response.length; i++){
+        let row = document.createElement('tr');
+        console.log(response[i].desc);
+        let d = response[i].desc;
+        let resp = response[i];
+        //let type = resp[i].type;
+        let type = 1;
+        switch(type){
+            case(1):
+                type = "Lodging";
+                break;
+            case(2):
+                type="Travel";
+                break;
+            case(3):
+                type="Food";
+                break;
+            case(4):
+                type="Other";
+                break;
+        }
+        if(response[i].statusId = 3){
+            console.log(response[i]);
+            let one = document.createElement('td');
+            one.innerText = resp.reimbId;
+            row.appendChild(one);
+
+            let twp = document.createElement('td');
+            twp.innerHTML = resp.amount
+            row.appendChild(twp);
+/*
+        row.innerHTML = 
+        "<td>" + "a" + resp.reimbId + "</td>"
+        "<td>" + "a" +resp.amount + "</td>"
+        "<td>" + "a" +d + "</td>"
+        "<td>" + "a" +type + "</td>"
+        "<td>" + "a" +resp.author + "</td>"
+        "<td>" + "a" +resp.submitted + "</td>";
+*/
+
+        if(localStorage.getItem('role') == "admin"){
+            row.innerHTML += "<td><button id=\"approve" + i + ">Approve</button></td><td><button id=\"deny" + i + ">Deny</button></td>";
+        }
+            document.getElementById("pending-table-body").append(row);
+        } else {
+            if(response[i].statusId = 1){
+                let status = "Approved"
+            }else if(response[i].statusId = 2){
+                let status = "Denied"
+            }
+            row.innerHTML = 
+            "<td>" + response[i].reimbId + "</td>"
+            "<td>" + response[i].amount + "</td>"
+            "<td>" + response[i].desc + "</td>"
+            "<td>" + type + "</td>"
+            "<td>" + response[i].author + "</td>"
+            "<td>" + response[i].submitted + "</td>"
+            "<td>" + status + "</td>"
+            "<td>" + response[i].resolver + "</td>";
+            document.getElementById("past-table-body").append(row);
+        }
+    }
 }
 
 async function newReimb() {
