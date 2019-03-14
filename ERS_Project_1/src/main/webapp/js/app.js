@@ -320,7 +320,7 @@ async function approve(){
                 });
 
                 if(response.status == 200){
-                    console.log("Denial went through")
+                    console.log("Reimbursement Accepted")
                     configureDashboard();
                 }else {
                     console.log("HAAA HAA!")
@@ -330,6 +330,58 @@ async function approve(){
 
 async function deny(i){
     console.log("inside of deny");
+    let x = event.target.id + ""
+    let tryme = event.target.id + "";
+    tryme.slice(tryme.length-1);
+    console.log(tryme);
+                x = x.slice(x.length-1);
+                console.log("x is currently  " + x);
+                let body = document.getElementById('row-'+x);
+                console.log("inner text " + body.childNodes[0].innerText);
+                console.log("maybe array value " + body.innerText);
+                let updateType = body.childNodes[3].innerText
+                switch(updateType){
+                    case("Lodging"):
+                        updateType = 1;
+                        break;
+                    case("Food"):
+                        updateType = 3;
+                        break;
+                    case("Travel"):
+                        updateType = 2;
+                        break;
+                    case("Other"):
+                        updateType = 4;
+                        break;
+                }
+
+                let updateReimb = {
+                    reimbId: body.childNodes[0].innerText,
+                    amount: body.childNodes[1].innerText,
+                    desc: body.childNodes[2].innerText,
+                    typeId: updateType,
+                    author: body.childNodes[4].innerText,
+                    submitted: body.childNodes[5].innerText,
+                    statusId : 2
+                };
+
+                let response = await fetch('update', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem('jwt')
+                    },
+                    body: JSON.stringify(updateReimb)
+                });
+
+                if(response.status == 200){
+                    console.log("Denial went through")
+                    configureDashboard();
+                }else {
+                    console.log("HAAA HAA!")
+                    console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
+                }
 }
 
 async function newReimb() {
