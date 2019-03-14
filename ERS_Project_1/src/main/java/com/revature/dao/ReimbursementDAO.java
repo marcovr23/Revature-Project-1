@@ -155,10 +155,9 @@ public Reimbursement update(Reimbursement newReimb) {
 			
 			conn.setAutoCommit(false);
 			
-			log.warn("THIS IS BROKEN - FIGURE OUT TIMESTAMPS");
 			PreparedStatement pstmt = conn.prepareStatement(
 					"UPDATE ers_reimbursement SET "
-					+ "status_id = ?, "
+					+ "reimb_status_id = ?, "
 					+ "reimb_resolver = ?, "
 					+ "reimb_resolved = ? "
 					+ "WHERE reimb_id = ?");

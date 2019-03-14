@@ -30,7 +30,7 @@ public class UpdateServlet extends HttpServlet{
 		resp.setContentType("application/json");
 		Principal principal = (Principal) req.getAttribute("principal");
 		ObjectMapper mapper = new ObjectMapper();
-		Reimbursement newReimb = new Reimbursement();
+		Reimbursement newReimb = null;
 		PrintWriter out = null;
 		
 		try {

@@ -149,21 +149,14 @@ async function configureDashboard() {
 
     
 }
-function aPT (response){
-    console.log("Inside APT with " + response);
-    for(let i = 0; i < response.length; i++){
-        console.log(response[i]);
-        console.log(response[i].desc);
-        
-    }
-}
+
 async function populateTable(response){
     console.log("Inside of populateTable")
     for(let i = 0; i < response.length; i++){
+        console.log(response[i]);
         let row = document.createElement('tr');
         row.setAttribute('id','row-'+i);
         console.log(response[i].desc);
-        let d = response[i].desc;
         let resp = response[i];
 
         //let type = resp[i].type;
@@ -182,7 +175,8 @@ async function populateTable(response){
                 type="Other";
                 break;
         }
-        if(response[i].statusId = 3){
+        console.log("Status id is " + response[i].statusId);
+        if(response[i].statusId == 3){
             console.log(response[i]);
             let id = document.createElement('td');
             id.innerText = resp.reimbId;
@@ -224,7 +218,9 @@ async function populateTable(response){
            
         }
             document.getElementById("pending-table-body").append(row);
-        } else {
+        } 
+        
+        if(response[i].statusId == 1 || response[i].statusId == 2){
             if(response[i].statusId = 1){
                 let status = "Approved"
             }else if(response[i].statusId = 2){
@@ -268,9 +264,10 @@ async function populateTable(response){
             row.appendChild(resolved);
             document.getElementById("past-table-body").append(row);
         }
-
+        if(response[i].statusId == 3){
             document.getElementById("approve-button"+i).addEventListener('click',approve);
-            document.getElementById("deny-button"+i).addEventListener('click',deny);     
+            document.getElementById("deny-button"+i).addEventListener('click',deny);
+        }     
     }
 }
 
@@ -286,14 +283,40 @@ async function approve(){
                 let body = document.getElementById('row-'+x);
                 console.log("inner text " + body.childNodes[0].innerText);
                 console.log("maybe array value " + body.innerText);
+                let updateType = body.childNodes[3].innerText
+                switch(updateType){
+                    case("Lodging"):
+                        updateType = 1;
+                        break;
+                    case("Food"):
+                        updateType = 3;
+                        break;
+                    case("Travel"):
+                        updateType = 2;
+                        break;
+                    case("Other"):
+                        updateType = 4;
+                        break;
+                }
+
+                let updateReimb = {
+                    reimbId: body.childNodes[0].innerText,
+                    amount: body.childNodes[1].innerText,
+                    desc: body.childNodes[2].innerText,
+                    typeId: updateType,
+                    author: body.childNodes[4].innerText,
+                    submitted: body.childNodes[5].innerText,
+                    statusId : 1
+                };
 
                 let response = await fetch('update', {
                     method: 'POST',
                     mode: 'cors',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem('jwt')
                     },
-                    body: JSON.stringify(body)
+                    body: JSON.stringify(updateReimb)
                 });
 
                 if(response.status == 200){
