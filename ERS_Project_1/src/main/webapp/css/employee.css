@@ -4,3 +4,11 @@ body{
 #main{
   margin: 10%;
 }
+#pending-table{
+  margin:auto;
+  align-content: center;
+}
+#past-table{
+  margin:auto;
+  align-content: center;
+}

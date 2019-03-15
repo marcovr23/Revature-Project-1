@@ -133,7 +133,7 @@ public class ReimbursementDAO {
 
 			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_reimbursement VALUES (0,?,?,0,?,?,81,3,?)");
 			pstmt.setDouble(1, reimb.getAmount()); 
-			pstmt.setString(2, reimb.getSubmitted()); // setTimestamp/toString/or change value
+			pstmt.setString(2, reimb.getSubmitted()); 
 			pstmt.setString(3, reimb.getDesc());
 			pstmt.setInt(4, reimb.getAuthor());
 			pstmt.setInt(5, reimb.getTypeId());		

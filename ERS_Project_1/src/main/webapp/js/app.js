@@ -220,10 +220,11 @@ async function populateTable(response){
         } 
         
         if(response[i].statusId == 1 || response[i].statusId == 2){
-            if(response[i].statusId = 1){
-                let status = "Approved"
-            }else if(response[i].statusId = 2){
-                let status = "Denied"
+            let reimbursementStatus = "Approved";
+            if(response[i].statusId == 1){
+                 reimbursementStatus = "Approved"
+            }else if(response[i].statusId == 2){
+                 reimbursementStatus = "Denied"
             }
             console.log(response[i]);
             let id = document.createElement('td');
@@ -231,39 +232,39 @@ async function populateTable(response){
             row.appendChild(id);
 
             let amount = document.createElement('td');
-            amount.innerHTML = resp.amount
+            amount.innerHTML = resp.amount;
             row.appendChild(amount);
             
             let desc = document.createElement('td');
-            desc.innerHTML = resp.desc
+            desc.innerHTML = resp.desc;
             row.appendChild(desc);
 
             let reimbType = document.createElement('td');
-            reimbType.innerHTML = type
+            reimbType.innerHTML = type;
             row.appendChild(reimbType);
             
             let author = document.createElement('td');
-            author.innerHTML = resp.author
+            author.innerHTML = resp.author;
             row.appendChild(author);
             
             let submitted = document.createElement('td');
-            submitted.innerHTML = resp.submitted
+            submitted.innerHTML = resp.submitted;
             row.appendChild(submitted);
 
             let reimbStatus = document.createElement('td');
-            reimbStatus.innerHTML = status
+            reimbStatus.innerHTML = reimbursementStatus;
             row.appendChild(reimbStatus);
 
             let resolver = document.createElement('td');
-            resolver.innerHTML = resp.resolver
+            resolver.innerHTML = resp.resolver;
             row.appendChild(resolver);
 
             let resolved = document.createElement('td');
-            resolved.innerHTML = resp.resolved
+            resolved.innerHTML = resp.resolved;
             row.appendChild(resolved);
             document.getElementById("past-table-body").append(row);
         }
-        if(response[i].statusId == 3){
+        if(response[i].statusId == 3 && localStorage.getItem('role') == "admin"){
             document.getElementById("approve-button"+i).addEventListener('click',approve);
             document.getElementById("deny-button"+i).addEventListener('click',deny);
         }     
@@ -325,6 +326,7 @@ async function approve(){
                     console.log("HAAA HAA!")
                     console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
                 }
+                clearTable();
 }
 
 async function deny(){
@@ -381,6 +383,7 @@ async function deny(){
                     console.log("HAAA HAA!")
                     console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
                 }
+                clearTable();
 }
 
 async function newReimb() {
@@ -424,10 +427,23 @@ async function newReimb() {
     console.log(newReimb);
     console.log(response);
 
-    // if(response.status == 200) {
-    //     viewReim();
-    // }
+     if(response.status == 200) {
+        clearTable();
+     }
 
+}
+
+function clearTable(){
+    let past = document.getElementById("past-table-body");
+    let pending = document.getElementById("pending-table-body")
+    while(past.hasChildNodes){
+        past.removeChild(past.firstChild);
+    }
+    while(pending.hasChildNodes){
+        pending.removeChild(pending.firstChild);
+    }
+
+    loadEmployeeDashboard();
 }
 
 async function viewReim() {
