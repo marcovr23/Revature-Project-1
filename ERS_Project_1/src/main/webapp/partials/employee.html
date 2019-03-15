@@ -1,16 +1,6 @@
 <div id="app-view">
-  <div id="sidebar_bg">
-    <div id="mySidenav" class="sidebar">
-      <a href="#">View your current Reimbursements</a>
-      <a href="#">View your past Reimbursements</a>
-      <a href="#" data-toggle="modal" data-target="#reimbModal">Submit a new Reimbursemetn</a>
-      <a href="#">Logout</a>
-    </div>
-  </div>
 
   <div id="main" class="content">
-    <h1> Welcome Back Please select what you would like to do from our sidebar</h1>
-
 
     <div id="pending">
       <table class="table table-dark table-striped">
@@ -53,6 +43,9 @@
       </table>
     </div>
 
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#reimbModal">
+      Add Reimbursement
+    </button>
     <!-- The Reimb Modal -->
     <div class="modal fade" id="reimbModal">
       <div class="modal-dialog">

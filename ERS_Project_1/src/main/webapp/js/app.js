@@ -1,33 +1,30 @@
 window.onload = function() {
     document.getElementById('to-login').addEventListener('click', login);
     document.getElementById('to-register').addEventListener('click', configureRegister);
-    //document.getElementById('to-logout').addEventListener('click', logout);
+    document.getElementById('to-logout').addEventListener('click', logout);
     document.getElementById('alert-msg').style.display = "none";
+    document.getElementById('pwd').addEventListener('keyup', function(event) {
+        if (event.keyCode === 13) {
+         login();
+        }
+      });
+    document.getElementById('register-email').addEventListener('keyup', function(event) {
+        if (event.keyCode === 13) {
+         login();
+        }
+      });
 }
 
-/*
-    Login component
-
-        - loadLogin()
-        - configureLogin()
-        - login()
-*/
-// async function loadLogin() {
-//     console.log('in loadLogin()');
-    
-//     APP_VIEW.innerHTML = await fetchView('login.view');
-//     DYNAMIC_CSS_LINK.href = 'css/home.css';
-//     configureLogin();
-// }
-
-// function configureLogin() {
-//     console.log('in configureLogin()');
-//     document.getElementById('alert-msg').style.display = "none";
-//     login();
-// }
+function logout(){
+    localStorage.removeItem("jwt");
+    location.reload();
+}
 
 async function login() {
     console.log('in login()');
+    let spinner = document.createElement("span");
+    spinner.setAttribute("class", "spinner-border spinner-border-sm");
+    document.getElementById("to-login").appendChild(spinner);
     let credentials = [];
     credentials.push(document.getElementById('usr').value);
     credentials.push(document.getElementById('pwd').value);
@@ -45,9 +42,11 @@ async function login() {
         document.getElementById('alert-msg').style.display = "none";
         localStorage.setItem('jwt', response.headers.get('Authorization'));
         console.log(localStorage.getItem('jwt', response.headers.get('Authorization')));
+        $('#loginModal').modal('hide');
         loadEmployeeDashboard();
     } else {
         document.getElementById('alert-msg').style.display = "block";
+        document.getElementById("to-login").removeChild(spinner);
     }
 
 }
