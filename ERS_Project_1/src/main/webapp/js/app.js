@@ -1,21 +1,21 @@
-window.onload = function() {
+window.onload = function () {
     document.getElementById('to-login').addEventListener('click', login);
     document.getElementById('to-register').addEventListener('click', configureRegister);
     document.getElementById('to-logout').addEventListener('click', logout);
     document.getElementById('alert-msg').style.display = "none";
-    document.getElementById('pwd').addEventListener('keyup', function(event) {
+    document.getElementById('pwd').addEventListener('keyup', function (event) {
         if (event.keyCode === 13) {
-         login();
+            login();
         }
-      });
-    document.getElementById('register-email').addEventListener('keyup', function(event) {
+    });
+    document.getElementById('register-email').addEventListener('keyup', function (event) {
         if (event.keyCode === 13) {
-         login();
+            login();
         }
-      });
+    });
 }
 
-function logout(){
+function logout() {
     localStorage.removeItem("jwt");
     location.reload();
 }
@@ -38,7 +38,7 @@ async function login() {
         body: JSON.stringify(credentials)
     });
 
-    if(response.status == 200) {
+    if (response.status == 200) {
         document.getElementById('alert-msg').style.display = "none";
         localStorage.setItem('jwt', response.headers.get('Authorization'));
         console.log(localStorage.getItem('jwt', response.headers.get('Authorization')));
@@ -135,47 +135,47 @@ async function configureDashboard() {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': localStorage.getItem('jwt')
-        } 
+        }
     });
 
-    if(response.status == 200) {
+    if (response.status == 200) {
         let responseBody = await response.json();
         localStorage.setItem('role', response.headers.get('role'));
         console.log(responseBody);
         populateTable(responseBody);
         //aPT(responseBody);
-    } 
+    }
 
-    
+
 }
 
-async function populateTable(response){
+async function populateTable(response) {
     console.log("Inside of populateTable")
-    for(let i = 0; i < response.length; i++){
+    for (let i = 0; i < response.length; i++) {
         console.log(response[i]);
         let row = document.createElement('tr');
-        row.setAttribute('id','row-'+i);
+        row.setAttribute('id', 'row-' + i);
         console.log(response[i].desc);
         let resp = response[i];
 
         //let type = resp[i].type;
         let type = resp.typeId;
-        switch(type){
-            case(1):
+        switch (type) {
+            case (1):
                 type = "Lodging";
                 break;
-            case(2):
-                type="Travel";
+            case (2):
+                type = "Travel";
                 break;
-            case(3):
-                type="Food";
+            case (3):
+                type = "Food";
                 break;
-            case(4):
-                type="Other";
+            case (4):
+                type = "Other";
                 break;
         }
         console.log("Status id is " + response[i].statusId);
-        if(response[i].statusId == 3){
+        if (response[i].statusId == 3) {
             console.log(response[i]);
             let id = document.createElement('td');
             id.innerText = resp.reimbId;
@@ -184,7 +184,7 @@ async function populateTable(response){
             let amount = document.createElement('td');
             amount.innerHTML = resp.amount
             row.appendChild(amount);
-            
+
             let desc = document.createElement('td');
             desc.innerHTML = resp.desc
             row.appendChild(desc);
@@ -192,39 +192,39 @@ async function populateTable(response){
             let reimbType = document.createElement('td');
             reimbType.innerHTML = type
             row.appendChild(reimbType);
-            
+
             let author = document.createElement('td');
             author.innerHTML = resp.author
             row.appendChild(author);
-            
+
             let submitted = document.createElement('td');
             submitted.innerHTML = resp.submitted
             row.appendChild(submitted);
 
-        if(localStorage.getItem('role') == "admin"){
-            let approve = document.createElement('td');
-            approve.innerText = "Approve";
-            approve.setAttribute("id","approve-button"+i);
-            approve.setAttribute("class", "btn btn-success");
-            row.appendChild(approve);
+            if (localStorage.getItem('role') == "admin") {
+                let approve = document.createElement('td');
+                approve.innerText = "Approve";
+                approve.setAttribute("id", "approve-button" + i);
+                approve.setAttribute("class", "btn btn-success");
+                row.appendChild(approve);
 
-            let deny = document.createElement('td');
-            deny.innerText = "Deny";
-            deny.setAttribute("id","deny-button"+i);
-            deny.setAttribute("class", "btn btn-danger");
-            row.appendChild(deny);
+                let deny = document.createElement('td');
+                deny.innerText = "Deny";
+                deny.setAttribute("id", "deny-button" + i);
+                deny.setAttribute("class", "btn btn-danger");
+                row.appendChild(deny);
 
-           
-        }
+
+            }
             document.getElementById("pending-table-body").append(row);
-        } 
-        
-        if(response[i].statusId == 1 || response[i].statusId == 2){
+        }
+
+        if (response[i].statusId == 1 || response[i].statusId == 2) {
             let reimbursementStatus = "Approved";
-            if(response[i].statusId == 1){
-                 reimbursementStatus = "Approved"
-            }else if(response[i].statusId == 2){
-                 reimbursementStatus = "Denied"
+            if (response[i].statusId == 1) {
+                reimbursementStatus = "Approved"
+            } else if (response[i].statusId == 2) {
+                reimbursementStatus = "Denied"
             }
             console.log(response[i]);
             let id = document.createElement('td');
@@ -234,7 +234,7 @@ async function populateTable(response){
             let amount = document.createElement('td');
             amount.innerHTML = resp.amount;
             row.appendChild(amount);
-            
+
             let desc = document.createElement('td');
             desc.innerHTML = resp.desc;
             row.appendChild(desc);
@@ -242,11 +242,11 @@ async function populateTable(response){
             let reimbType = document.createElement('td');
             reimbType.innerHTML = type;
             row.appendChild(reimbType);
-            
+
             let author = document.createElement('td');
             author.innerHTML = resp.author;
             row.appendChild(author);
-            
+
             let submitted = document.createElement('td');
             submitted.innerHTML = resp.submitted;
             row.appendChild(submitted);
@@ -264,153 +264,153 @@ async function populateTable(response){
             row.appendChild(resolved);
             document.getElementById("past-table-body").append(row);
         }
-        if(response[i].statusId == 3 && localStorage.getItem('role') == "admin"){
-            document.getElementById("approve-button"+i).addEventListener('click',approve);
-            document.getElementById("deny-button"+i).addEventListener('click',deny);
-        }     
+        if (response[i].statusId == 3 && localStorage.getItem('role') == "admin") {
+            document.getElementById("approve-button" + i).addEventListener('click', approve);
+            document.getElementById("deny-button" + i).addEventListener('click', deny);
+        }
     }
 }
 
 
-async function approve(){
+async function approve() {
     console.log("inside of approve");
     let x = event.target.id + ""
     let tryme = event.target.id + "";
-    tryme.slice(tryme.length-1);
+    tryme.slice(tryme.length - 1);
     console.log(tryme);
-                x = x.slice(x.length-1);
-                console.log("x is currently  " + x);
-                let body = document.getElementById('row-'+x);
-                console.log("inner text " + body.childNodes[0].innerText);
-                console.log("maybe array value " + body.innerText);
-                let updateType = body.childNodes[3].innerText
-                switch(updateType){
-                    case("Lodging"):
-                        updateType = 1;
-                        break;
-                    case("Food"):
-                        updateType = 3;
-                        break;
-                    case("Travel"):
-                        updateType = 2;
-                        break;
-                    case("Other"):
-                        updateType = 4;
-                        break;
-                }
+    x = x.slice(x.length - 1);
+    console.log("x is currently  " + x);
+    let body = document.getElementById('row-' + x);
+    console.log("inner text " + body.childNodes[0].innerText);
+    console.log("maybe array value " + body.innerText);
+    let updateType = body.childNodes[3].innerText
+    switch (updateType) {
+        case ("Lodging"):
+            updateType = 1;
+            break;
+        case ("Food"):
+            updateType = 3;
+            break;
+        case ("Travel"):
+            updateType = 2;
+            break;
+        case ("Other"):
+            updateType = 4;
+            break;
+    }
 
-                let updateReimb = {
-                    reimbId: body.childNodes[0].innerText,
-                    amount: body.childNodes[1].innerText,
-                    desc: body.childNodes[2].innerText,
-                    typeId: updateType,
-                    author: body.childNodes[4].innerText,
-                    submitted: body.childNodes[5].innerText,
-                    statusId : 1
-                };
+    let updateReimb = {
+        reimbId: body.childNodes[0].innerText,
+        amount: body.childNodes[1].innerText,
+        desc: body.childNodes[2].innerText,
+        typeId: updateType,
+        author: body.childNodes[4].innerText,
+        submitted: body.childNodes[5].innerText,
+        statusId: 1
+    };
 
-                let response = await fetch('update', {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': localStorage.getItem('jwt')
-                    },
-                    body: JSON.stringify(updateReimb)
-                });
+    let response = await fetch('update', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('jwt')
+        },
+        body: JSON.stringify(updateReimb)
+    });
 
-                if(response.status == 200){
-                    console.log("Reimbursement Accepted")
-                    configureDashboard();
-                }else {
-                    console.log("HAAA HAA!")
-                    console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
-                }
-                clearTable();
+    if (response.status == 200) {
+        console.log("Reimbursement Accepted")
+        configureDashboard();
+    } else {
+        console.log("HAAA HAA!")
+        console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
+    }
+    clearTable();
 }
 
-async function deny(){
+async function deny() {
     console.log("inside of deny");
     let x = event.target.id + ""
     let tryme = event.target.id + "";
-    tryme.slice(tryme.length-1);
+    tryme.slice(tryme.length - 1);
     console.log(tryme);
-                x = x.slice(x.length-1);
-                console.log("x is currently  " + x);
-                let body = document.getElementById('row-'+x);
-                console.log("inner text " + body.childNodes[0].innerText);
-                console.log("maybe array value " + body.innerText);
-                let updateType = body.childNodes[3].innerText
-                switch(updateType){
-                    case("Lodging"):
-                        updateType = 1;
-                        break;
-                    case("Food"):
-                        updateType = 3;
-                        break;
-                    case("Travel"):
-                        updateType = 2;
-                        break;
-                    case("Other"):
-                        updateType = 4;
-                        break;
-                }
+    x = x.slice(x.length - 1);
+    console.log("x is currently  " + x);
+    let body = document.getElementById('row-' + x);
+    console.log("inner text " + body.childNodes[0].innerText);
+    console.log("maybe array value " + body.innerText);
+    let updateType = body.childNodes[3].innerText
+    switch (updateType) {
+        case ("Lodging"):
+            updateType = 1;
+            break;
+        case ("Food"):
+            updateType = 3;
+            break;
+        case ("Travel"):
+            updateType = 2;
+            break;
+        case ("Other"):
+            updateType = 4;
+            break;
+    }
 
-                let updateReimb = {
-                    reimbId: body.childNodes[0].innerText,
-                    amount: body.childNodes[1].innerText,
-                    desc: body.childNodes[2].innerText,
-                    typeId: updateType,
-                    author: body.childNodes[4].innerText,
-                    submitted: body.childNodes[5].innerText,
-                    statusId : 2
-                };
+    let updateReimb = {
+        reimbId: body.childNodes[0].innerText,
+        amount: body.childNodes[1].innerText,
+        desc: body.childNodes[2].innerText,
+        typeId: updateType,
+        author: body.childNodes[4].innerText,
+        submitted: body.childNodes[5].innerText,
+        statusId: 2
+    };
 
-                let response = await fetch('update', {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': localStorage.getItem('jwt')
-                    },
-                    body: JSON.stringify(updateReimb)
-                });
+    let response = await fetch('update', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('jwt')
+        },
+        body: JSON.stringify(updateReimb)
+    });
 
-                if(response.status == 200){
-                    console.log("Denial went through")
-                    configureDashboard();
-                }else {
-                    console.log("HAAA HAA!")
-                    console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
-                }
-                clearTable();
+    if (response.status == 200) {
+        console.log("Denial went through")
+        configureDashboard();
+    } else {
+        console.log("HAAA HAA!")
+        console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
+    }
+    clearTable();
 }
 
 async function newReimb() {
     console.log('in newReimb()');
 
-    let reimbType =  document.getElementById('sel1').value;
-    switch(reimbType){
-        case("Lodging"):
+    let reimbType = document.getElementById('sel1').value;
+    switch (reimbType) {
+        case ("Lodging"):
             reimbType = 1;
             break;
-        case("Food"):
+        case ("Food"):
             reimbType = 3;
             break;
-        case("Travel"):
+        case ("Travel"):
             reimbType = 2;
             break;
-        case("Other"):
+        case ("Other"):
             reimbType = 4;
             break;
     }
     let newReimb = {
-        
+
         amount: document.getElementById('amount').value,
         desc: document.getElementById('desc').value,
         typeId: reimbType
     };
-    
+
     // POST information to servlet
     let response = await fetch('reimb', {
         method: 'POST',
@@ -421,27 +421,24 @@ async function newReimb() {
         },
         body: JSON.stringify(newReimb)
     });
-    
+
     let responseBody = await response.json();
     console.log(responseBody);
     console.log(newReimb);
     console.log(response);
 
-     if(response.status == 200) {
+    if (response.status == 200) {
         clearTable();
-     }
+    }
 
 }
 
-function clearTable(){
+function clearTable() {
     let past = document.getElementById("past-table-body");
     let pending = document.getElementById("pending-table-body")
-    while(past.hasChildNodes){
-        past.removeChild(past.firstChild);
-    }
-    while(pending.hasChildNodes){
-        pending.removeChild(pending.firstChild);
-    }
+    let i = 0;
+    past.innerHTML ="";
+    pending.innerHTML = '';
 
     loadEmployeeDashboard();
 }
@@ -463,7 +460,7 @@ async function fetchView(uri) {
         }
     });
 
-    if(response.status == 401) loadLogin();
+    if (response.status == 401) loadLogin();
     return await response.text();
 }
 
