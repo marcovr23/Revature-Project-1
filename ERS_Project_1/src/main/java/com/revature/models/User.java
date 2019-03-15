@@ -9,7 +9,7 @@ public class User {
 	private String lastname;
 	private String email;
 	private String role;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -135,5 +135,5 @@ public class User {
 	public User() {
 		super();
 	}
-	
+
 }	

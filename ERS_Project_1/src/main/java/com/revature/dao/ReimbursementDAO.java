@@ -58,23 +58,22 @@ public class ReimbursementDAO {
 
 		return reimbursements;
 	}
-	//		TODO - delete this if it works without it	
-	//	public List<Reimbursement> getByStatus(int status) {
-	//		List<Reimbursement> reimb = new ArrayList<>();
-	//		
-	//		try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
-	//			
-	//			PreparedStatement pstmt = conn.prepareStatement("SELECT e.reimb_amount, e.reimb_submitted, e.reimb_description,  e.reimb_author, s.reimb_status FROM  ers_reimbursement e RIGHT JOIN ers_reimbursement_status s ON e.reimb_status_id = s.reimb_status_id WHERE s.reimb_status = ?;");
-	//			
-	//			pstmt.setInt(1, status);
-	//			ResultSet rs = pstmt.executeQuery();
-	//			reimb = this.mapResultSet(rs);
-	//			
-	//		} catch (SQLException e) {
-	//			log.error(e.getMessage());
-	//		}
-	//		return reimb;
-	//	}
+	public List<Reimbursement> getByStatus(int status) {
+		List<Reimbursement> reimb = new ArrayList<>();
+
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+			PreparedStatement pstmt = conn.prepareStatement("SELECT e.reimb_amount, e.reimb_submitted, e.reimb_description,  e.reimb_author, s.reimb_status FROM  ers_reimbursement e RIGHT JOIN ers_reimbursement_status s ON e.reimb_status_id = s.reimb_status_id WHERE s.reimb_status = ?;");
+
+			pstmt.setInt(1, status);
+			ResultSet rs = pstmt.executeQuery();
+			reimb = this.mapResultSet(rs);
+
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+		}
+		return reimb;
+	}
 
 	public List<Reimbursement> getByStatusAndId(String status, String id) {
 		List<Reimbursement> reimb = new ArrayList<>();
@@ -92,7 +91,6 @@ public class ReimbursementDAO {
 
 		return reimb;
 	}
-
 
 	/**
 	 * Injects values provided from user into database.
@@ -225,7 +223,7 @@ public class ReimbursementDAO {
 			reimbursement.setTypeId(rs.getInt("reimb_type_id"));
 			reimbursements.add(reimbursement);
 		}
-		
+
 		return reimbursements;
 	}
 

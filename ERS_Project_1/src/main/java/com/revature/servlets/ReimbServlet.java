@@ -31,6 +31,8 @@ public class ReimbServlet extends HttpServlet {
 	// ReimbursementService object ensures all values passed through are legitimate
 	private final ReimbursementService reimbService = new ReimbursementService();
 
+	// Returns a list of reimbursements if your current role is 'admin'
+	// Returns a list of your reimbursements if your current role is 'user'
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
@@ -48,25 +50,29 @@ public class ReimbServlet extends HttpServlet {
 				return;
 			}
 			int role = Integer.parseInt(principal.getRole());
+
+
 			List<Reimbursement> reimbs = new ArrayList<>();
 
+			// If the user is NOT an admin
 			if(role == 1) {
 				log.info("Inside of user reimb servlet. Current user id is " + principal.getId());
-				reimbs =	reimbService.getReimbursementsById(principal.getId());
+				reimbs = reimbService.getReimbursementsById(principal.getId());
 				log.info("user reimbs are " + reimbs);
-				
+
+				// If the user is an admin add the appropriate headers for authorization
 			}
 			if(role == 2) {
-				reimbs =	reimbService.getAllReimbursements();
+				reimbs = reimbService.getAllReimbursements();
 				resp.addHeader("role", "admin");
 			}
 
-			log.info("Current value of reimbrusements are " + reimbs);
+			log.info("Current value of reimbursements are " + reimbs);
 			if(!reimbs.isEmpty() && reimbs != null) {	
 				out.write(map.writeValueAsString(reimbs));
 
+				// OK!
 				resp.setStatus(200);
-
 			}
 
 		} catch (MismatchedInputException mie) {
@@ -80,6 +86,7 @@ public class ReimbServlet extends HttpServlet {
 		}
 	}
 
+	// Carries the values for an added reimbursement
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
