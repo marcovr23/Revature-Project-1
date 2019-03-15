@@ -27,21 +27,21 @@ public class ReimbServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger(ReimbServlet.class);
-	
+
+	// ReimbursementService object ensures all values passed through are legitimate
 	private final ReimbursementService reimbService = new ReimbursementService();
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		Principal principal = (Principal) req.getAttribute("principal");
-		
-		
+
 		String requestURI = req.getRequestURI();
 		ObjectMapper map = new ObjectMapper();
-		
+
 		try {
 			PrintWriter out = resp.getWriter();
-			
+
 			if(principal == null) {
 				log.warn("No principal found on request");
 				resp.setStatus(401);
@@ -49,25 +49,26 @@ public class ReimbServlet extends HttpServlet {
 			}
 			int role = Integer.parseInt(principal.getRole());
 			List<Reimbursement> reimbs = new ArrayList<>();
-			
+
 			if(role == 1) {
 				log.info("Inside of user reimb servlet. Current user id is " + principal.getId());
-				 reimbs =	reimbService.getReimbursementsById(principal.getId());
-				 log.info("user reimbs are " + reimbs);
-				}
+				reimbs =	reimbService.getReimbursementsById(principal.getId());
+				log.info("user reimbs are " + reimbs);
+				
+			}
 			if(role == 2) {
-				 reimbs =	reimbService.getAllReimbursements();
-				 resp.addHeader("role", "admin");
-				}
-			
+				reimbs =	reimbService.getAllReimbursements();
+				resp.addHeader("role", "admin");
+			}
+
 			log.info("Current value of reimbrusements are " + reimbs);
 			if(!reimbs.isEmpty() && reimbs != null) {	
-			out.write(map.writeValueAsString(reimbs));
-			
-			resp.setStatus(200);
-			
+				out.write(map.writeValueAsString(reimbs));
+
+				resp.setStatus(200);
+
 			}
-				
+
 		} catch (MismatchedInputException mie) {
 			log.error(mie.getMessage());
 			resp.setStatus(400);
@@ -77,9 +78,8 @@ public class ReimbServlet extends HttpServlet {
 			resp.setStatus(500);
 			e.printStackTrace();
 		}
-		
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
@@ -87,9 +87,9 @@ public class ReimbServlet extends HttpServlet {
 		ObjectMapper mapper = new ObjectMapper();
 		Reimbursement newReimb = null;
 		try {
-			 newReimb = mapper.readValue(req.getInputStream(), Reimbursement.class);
-			 newReimb.setAuthor(principal.getId());
-			 log.info("new reimbursement entered is " + newReimb);
+			newReimb = mapper.readValue(req.getInputStream(), Reimbursement.class);
+			newReimb.setAuthor(principal.getId());
+			log.info("new reimbursement entered is " + newReimb);
 		} catch (MismatchedInputException mie) {
 			log.error(mie.getMessage());
 			resp.setStatus(400);
@@ -101,9 +101,9 @@ public class ReimbServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		newReimb = reimbService.addReimbursement(newReimb);
-		
+
 		try {
 			String userJson = mapper.writeValueAsString(newReimb);
 			PrintWriter out = resp.getWriter();
@@ -115,10 +115,4 @@ public class ReimbServlet extends HttpServlet {
 			return;
 		}
 	}
-	
 }
-
-// get 
-// post
-// update
-// add reimbursement

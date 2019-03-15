@@ -4,7 +4,7 @@ package com.revature.models;
 public class Reimbursement {
 
 	private int reimbId;
-	private int amount;
+	private double amount;
 	private String submitted;
 	private String resolved; 
 	private String desc;
@@ -19,10 +19,10 @@ public class Reimbursement {
 	public void setReimbId(int reimbId) {
 		this.reimbId = reimbId;
 	}
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 	public String getSubmitted() {
@@ -67,11 +67,14 @@ public class Reimbursement {
 	public void setTypeId(int typeId) {
 		this.typeId = typeId;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + amount;
+		long temp;
+		temp = Double.doubleToLongBits(amount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + author;
 		result = prime * result + ((desc == null) ? 0 : desc.hashCode());
 		result = prime * result + reimbId;
@@ -91,7 +94,7 @@ public class Reimbursement {
 		if (getClass() != obj.getClass())
 			return false;
 		Reimbursement other = (Reimbursement) obj;
-		if (amount != other.amount)
+		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
 			return false;
 		if (author != other.author)
 			return false;
@@ -126,7 +129,7 @@ public class Reimbursement {
 				+ resolved + ", desc=" + desc + ", author=" + author + ", resolver=" + resolver + ", statusId="
 				+ statusId + ", typeId=" + typeId + "]";
 	}
-	public Reimbursement(int reimbId, int amount, String submitted, String resolved, String desc, int author,
+	public Reimbursement(int reimbId, double amount, String submitted, String resolved, String desc, int author,
 			int resolver, int statusId, int typeId) {
 		super();
 		this.reimbId = reimbId;
@@ -142,14 +145,14 @@ public class Reimbursement {
 	public Reimbursement() {
 		super();
 	}
-	public Reimbursement(int amount, String desc, int author, String date) {
+	public Reimbursement(double amount, String desc, int author, String date) {
 		super();
 		this.amount = amount;
 		this.desc = desc;
 		this.author = author;
 		this.submitted = date;
 	}
-	public Reimbursement(int amnt, String description, int typeId, int author, String date) {
+	public Reimbursement(double amnt, String description, int typeId, int author, String date) {
 		super();
 		this.amount = amnt;
 		this.desc = description;
