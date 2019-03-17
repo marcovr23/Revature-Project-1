@@ -321,12 +321,11 @@ async function approve(){
 
                 if(response.status == 200){
                     console.log("Reimbursement Accepted")
-                    configureDashboard();
+                    clearTable();
                 }else {
                     console.log("HAAA HAA!")
                     console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
                 }
-                clearTable();
 }
 
 async function deny(){
@@ -378,12 +377,11 @@ async function deny(){
 
                 if(response.status == 200){
                     console.log("Denial went through")
-                    configureDashboard();
+                    clearTable();
                 }else {
                     console.log("HAAA HAA!")
                     console.log("FAAAAAAAAAAAILLLUUUUUUUUUUUUUURE")
                 }
-                clearTable();
 }
 
 async function newReimb() {
