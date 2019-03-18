@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +10,6 @@
   <link rel="stylesheet" type="text/css" media="screen" href="css/app.css">
   <link rel="stylesheet" type="text/css" href="" id="dynamic-css">
 </head>
-
 <body>
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
     <!-- Brand/logo -->
@@ -26,7 +24,6 @@
       </li>
     </ul>
   </nav>
-
   <div id="app-view">
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
@@ -46,6 +43,10 @@
               data-target="#loginModal">Login</button>
             <button type="button" class="btn btn-warning" data-toggle="modal"
               data-target="#regModal">Register</button>
+          </div>
+          <br />
+          <div class="alert alert-success" id= "alert-msg-success">
+            <strong>Success!</strong> User Sucessfully Registered! Please login with your credentials.
           </div>
       </div>
     </div>
@@ -118,7 +119,13 @@
               <label for="reg-email">Email:</label>
               <input type="email" class="form-control" id="register-email" name="email" required>
             </div>
-            <button type="submit" class="btn btn-warning" id='to-register' data-dismiss="modal">Submit</button>
+            <div class="alert alert-danger" id = "alert-msg-register">
+              <strong>Error</strong>  Please fill out ALL fields.
+            </div>
+            <div class="alert alert-danger" id = "register-failed-user">
+              <strong>Error</strong>  Username already taken, Please try another username.
+            </div>
+            <button type="submit" class="btn btn-warning" id='to-register' >Submit</button>
           </div>
   
           <!-- Modal footer -->
@@ -137,5 +144,4 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
-
 </html>
