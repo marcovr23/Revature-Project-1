@@ -43,11 +43,12 @@
 
         </tbody>
       </table>
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#reimbModal">
+        Add Reimbursement
+      </button>
     </div>
 
-    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#reimbModal">
-      Add Reimbursement
-    </button>
+   
     <!-- The Reimb Modal -->
     <div class="modal fade" id="reimbModal">
       <div class="modal-dialog">
@@ -78,16 +79,17 @@
                 <option>Other</option>
               </select>
             </div>
-            <button type="submit" class="btn btn-warning" data-dismiss="modal" id='to-add-reimb'>Submit</button>
+          </div>
+          <div class="alert alert-danger" id="alert-msg-incomplete">
+            Please complete all fields!
+        </div>
+            <button type="submit" class="btn btn-warning" id='to-add-reimb'>Submit</button>
           </div>
 
           <!-- Login Modal footer -->
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
           </div>
-
-          <button type="button" class="btn btn-warning data-toggle" data-toggle="modal" data-target="#reimbModal">Add a Reimbursement</button>
-
         </div>
       </div>
     </div>

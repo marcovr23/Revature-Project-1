@@ -213,7 +213,7 @@ public class ReimbursementDAO {
 		while(rs.next()) {
 			Reimbursement reimbursement = new Reimbursement();
 			reimbursement.setReimbId(rs.getInt("reimb_id"));
-			reimbursement.setAmount(rs.getInt("reimb_amount"));
+			reimbursement.setAmount(rs.getDouble("reimb_amount"));
 			reimbursement.setSubmitted(rs.getString("reimb_submitted"));
 			reimbursement.setResolved(rs.getString("reimb_resolved"));
 			reimbursement.setDesc(rs.getString("reimb_description"));
